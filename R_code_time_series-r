@@ -1,0 +1,6 @@
+#Time series analysis
+#Greenland
+#install.packages("raster")
+
+library(raster)
+setwd("C:/lab/greenland")
