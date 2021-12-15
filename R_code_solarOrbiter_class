@@ -1,0 +1,26 @@
+# SolarOrbiter
+setwd("C:/lab/solar/")
+solar<-brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")
+library(RStoolbox)
+# visualizzare RGB levels
+plotRGB(solar, 1,2,3, stretch="lin")
+
+# unsupervised classificazione
+unsuperClass(solar,nClasses=3)
+soc<-unsuperClass(solar,nClasses=3)
+plot(soc$map)
+
+# unsupervised classificazione 20 classi
+unsuperClass(solar,nClasses=20)
+socs<-unsuperClass(solar,nClasses=20)
+plot(socs$map)
+
+# sun
+library(RStoolbox)
+setwd("C:/lab/solar/")
+sun<-brick("sun.png")
+library(RStoolbox)
+plotRGB(sun, 1,2,3, stretch="lin")
+unsuperClass(sun,nClasses=20)
+sun20<-unsuperClass(sun,nClasses=20)
+plot(sun20$map)
