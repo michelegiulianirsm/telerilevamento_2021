@@ -24,3 +24,39 @@ plotRGB(sun, 1,2,3, stretch="lin")
 unsuperClass(sun,nClasses=20)
 sun20<-unsuperClass(sun,nClasses=20)
 plot(sun20$map)
+
+-----------------------------------------------------------------
+
+# Grand Canyon
+#dolansprings_oli_2013088_canyon_lrg.jpg
+
+library(raster)
+library(RStoolbox)
+setwd("C:/lab/")
+gcanyon<-brick("dolansprings_oli_2013088_canyon_lrg.jpg")
+plotRGB(gcanyon, r=1,g=2,b=3, stretch="lin")
+plotRGB(gcanyon,r=1,g=2,b=3 stretch="hist")
+gcanyon2<-unsuperClass(gcanyon,nClasses=2)
+plot(gcanyon2)
+gcanyon2
+gcanyon4<-unsuperClass(gcanyon,nClasses=4)
+plot(gcanyon4$map)
+gcanyon4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
