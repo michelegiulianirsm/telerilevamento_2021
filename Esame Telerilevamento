@@ -103,11 +103,16 @@ plotRGB(A2001PCA$map, 1, 2, 3, stretch="Lin")
 plotRGB(A2011PCA$map, 1, 2, 3, stretch="Lin")
 plotRGB(A2021PCA$map, 1, 2, 3, stretch="Lin")
 
+# multiframe con ggplot
 
+A1991name <- ggRGB(A1991PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 1991")
+A2001name <- ggRGB(A2001PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2001")
+A2011name <- ggRGB(A2011PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2011")
+A2021name <- ggRGB(A2021PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2021")
 
+#utilizzo la funzione grid.arrange per visualizzarli assieme 
 
-
-
+grid.arrange(A1991name, A2001name, A2011name, A2021name, nrow=2, top=textGrob("PCA in the years"))
 
 
 
