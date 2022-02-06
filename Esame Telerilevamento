@@ -57,7 +57,10 @@ plot(NDVI2011, main="Anno 2011")
 plot(NDVI2021, main="Anno 2021") 
 
 # Ora faccio analisi delle componenti principali (PCA)
+# funzione aggregate per alleggerire file fact=10
 
+
+A1991PCA
 
 
 
