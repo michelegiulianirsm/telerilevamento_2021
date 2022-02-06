@@ -105,10 +105,10 @@ plotRGB(A2021PCA$map, 1, 2, 3, stretch="Lin")
 
 # multiframe con ggplot
 
-A1991name <- ggRGB(A1991PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 1991")
-A2001name <- ggRGB(A2001PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2001")
-A2011name <- ggRGB(A2011PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2011")
-A2021name <- ggRGB(A2021PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2021")
+A1991name <- ggRGB(A1991PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 1991") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
+A2001name <- ggRGB(A2001PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2001") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
+A2011name <- ggRGB(A2011PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2011") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
+A2021name <- ggRGB(A2021PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2021") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
 
 #utilizzo la funzione grid.arrange per visualizzarli assieme 
 
