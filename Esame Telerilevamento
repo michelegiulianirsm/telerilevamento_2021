@@ -59,14 +59,49 @@ plot(NDVI2021, main="Anno 2021")
 # Ora faccio analisi delle componenti principali (PCA)
 # funzione aggregate per alleggerire file fact=10
 
+A1991RES <- aggregate(A1991, fact=10) 
+A2001RES <- aggregate(A2001, fact=10) 
+A2011RES <- aggregate(A2011, fact=10) 
+A2021RES <- aggregate(A2021, fact=10) 
 
-A1991PCA
+#PCA
 
+A1991PCA <- rasterPCA(A1991RES) 
+A2001PCA <- rasterPCA(A2001RES)
+A2011PCA <- rasterPCA(A2011RES)
+A2021PCA <- rasterPCA(A2021RES)
 
+# uso l'opzione summary per lo studio delle componenti
 
+summary(A1991PCA$model)
+#                   Comp.1    Comp.2     Comp.3     Comp.4      Comp.5     Comp.6
+#Standard deviation     7.6306175 5.9269020 2.96891192 1.50767147 1.007402305 0.19526392
+#Proportion of Variance 0.5519345 0.3329842 0.08355314 0.02154674 0.009619977 0.00036142
+#Cumulative Proportion  0.5519345 0.8849187 0.96847186 0.99001860 0.999638580 1.00000000
 
+summary(A2001PCA$model)
+#                            Comp.1      Comp.2       Comp.3       Comp.4       Comp.5       Comp.6
+#Standard deviation     1717.286851 1104.528215 340.05564106 113.09241985 71.341777766 4.070779e+01
+#Proportion of Variance    0.685157    0.283438   0.02686608   0.00297147  0.001182476 3.849989e-04
+#Cumulative Proportion     0.685157    0.968595   0.99546105   0.99843253  0.999615001 1.000000e+00
 
+summary(A2011PCA$model)
+#                         Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6       Comp.7
+#Standard deviation     3387.5550049 1642.0084386 1.135440e+03 423.64419335 2.479787e+02 1.521110e+02 1.481759e+02
+#Proportion of Variance    0.7287435    0.1712193 8.187106e-02   0.01139737 3.905088e-03 1.469343e-03 1.394303e-03
+#Cumulative Proportion     0.7287435    0.8999628 9.818339e-01   0.99323127 9.971364e-01 9.986057e-01 1.000000e+00
 
+summary(A2021PCA$model)
+#                             Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6       Comp.7       Comp.8
+#Standard deviation     4028.4661162 1.162485e+03 696.03517726 452.47786834 3.341081e+02 2.863907e+02 2.096718e+02 6.615500e+01
+#Proportion of Variance    0.8766924 7.300333e-02   0.02617159   0.01106019 6.030339e-03 4.430836e-03 2.374913e-03 2.364249e-04
+#Cumulative Proportion     0.8766924 9.496957e-01   0.97586730   0.98692749 9.929578e-01 9.973887e-01 9.997636e-01 1.000000e+00
+
+par(mfrow=c(2,2))
+plotRGB(A1991PCA$map, 1, 2, 3, stretch="Lin")
+plotRGB(A2001PCA$map, 1, 2, 3, stretch="Lin")
+plotRGB(A2011PCA$map, 1, 2, 3, stretch="Lin")
+plotRGB(A2021PCA$map, 1, 2, 3, stretch="Lin")
 
 
 
