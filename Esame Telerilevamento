@@ -32,7 +32,7 @@ plot(A2021)
 
 par(mfrow=c(2,2))
 plotRGB(A1991, 3, 2, 1, stretch="Lin")
-plotRGB(A2021, 4, 3, 1, stretch="Lin")
+plotRGB(A2021, 4, 3, 2, stretch="Lin")
 
 # comparo le quattro immagini con plotRGB e plotNDVI per anali vegetazione 
 #plotRGB
@@ -41,14 +41,14 @@ par(mfrow=c(2,2))
 plotRGB(A1991, 4, 3, 2, stretch="lin")
 plotRGB(A2001, 4, 3, 2, stretch="lin")
 plotRGB(A2011, 4, 3, 2, stretch="lin")
-plotRGB(A2021, 6, 5, 2, stretch="lin")
+plotRGB(A2021, 5, 4, 3, stretch="lin")
 
 #plotNDVI
 
 NDVI1991 <- (A1991[[4]] - A1991[[3]]) / (A1991[[4]] + A1991[[3]]) 
 NDVI2001 <- (A2001[[4]] - A2001[[3]]) / (A2001[[4]] + A2001[[3]])
 NDVI2011 <- (A2011[[4]] - A2011[[3]]) / (A2011[[4]] + A2011[[3]])
-NDVI2021 <- (A2021[[6]] - A2021[[5]]) / (A2021[[6]] + A2021[[5]])
+NDVI2021 <- (A2021[[5]] - A2021[[4]]) / (A2021[[5]] + A2021[[4]])
 
 par(mfrow=c(2,2))
 plot(NDVI1991, main="Anno 1991") 
@@ -74,10 +74,16 @@ A2021PCA <- rasterPCA(A2021RES)
 # uso l'opzione summary per lo studio delle componenti
 
 summary(A1991PCA$model)
-#                   Comp.1    Comp.2     Comp.3     Comp.4      Comp.5     Comp.6
+#                          Comp.1    Comp.2     Comp.3     Comp.4      Comp.5     Comp.6
 #Standard deviation     7.6306175 5.9269020 2.96891192 1.50767147 1.007402305 0.19526392
 #Proportion of Variance 0.5519345 0.3329842 0.08355314 0.02154674 0.009619977 0.00036142
 #Cumulative Proportion  0.5519345 0.8849187 0.96847186 0.99001860 0.999638580 1.00000000
+
+#PC1
+
+A1991PC1 <- A1991PCA$map$PC1
+levelplot(A1991PC1)
+A1991MW <- focal(A1991PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 
 summary(A2001PCA$model)
 #                            Comp.1      Comp.2       Comp.3       Comp.4       Comp.5       Comp.6
@@ -85,19 +91,38 @@ summary(A2001PCA$model)
 #Proportion of Variance    0.685157    0.283438   0.02686608   0.00297147  0.001182476 3.849989e-04
 #Cumulative Proportion     0.685157    0.968595   0.99546105   0.99843253  0.999615001 1.000000e+00
 
+#PC1
+
+A2001PC1 <- A2001PCA$map$PC1
+levelplot(A2001PC1)
+A2001MW <- focal(A2001PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+
 summary(A2011PCA$model)
-#                         Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6       Comp.7
-#Standard deviation     3387.5550049 1642.0084386 1.135440e+03 423.64419335 2.479787e+02 1.521110e+02 1.481759e+02
-#Proportion of Variance    0.7287435    0.1712193 8.187106e-02   0.01139737 3.905088e-03 1.469343e-03 1.394303e-03
-#Cumulative Proportion     0.7287435    0.8999628 9.818339e-01   0.99323127 9.971364e-01 9.986057e-01 1.000000e+00
+#                             Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6
+#Standard deviation     3084.6240152 1103.0248585 413.25928530 2.370053e+02 1.466033e+02 1.428229e+02
+#Proportion of Variance    0.8649588    0.1106016   0.01552516 5.106308e-03 1.953794e-03 1.854327e-03
+#Cumulative Proportion     0.8649588    0.9755604   0.99108557 9.961919e-01 9.981457e-01 1.000000e+00
 
-summary(A2021PCA$model)
-#                             Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6       Comp.7       Comp.8
-#Standard deviation     4028.4661162 1.162485e+03 696.03517726 452.47786834 3.341081e+02 2.863907e+02 2.096718e+02 6.615500e+01
-#Proportion of Variance    0.8766924 7.300333e-02   0.02617159   0.01106019 6.030339e-03 4.430836e-03 2.374913e-03 2.364249e-04
-#Cumulative Proportion     0.8766924 9.496957e-01   0.97586730   0.98692749 9.929578e-01 9.973887e-01 9.997636e-01 1.000000e+00
+#PC1
 
-par(mfrow=c(2,2))
+A2011PC1 <- A2011PCA$map$PC1
+levelplot(A2011PC1)
+A2011MW <- focal(A2011PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+
+summary(A2021PCA1$model)
+
+#                             Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6       Comp.7
+#Standard deviation     3822.9652772 1.134875e+03 612.58426836 3.628408e+02 298.75324148 2.134628e+02 6.521908e+01
+#Proportion of Variance    0.8831393 7.782592e-02   0.02267567 7.955377e-03   0.00539329 2.753422e-03 2.570264e-04
+#Cumulative Proportion     0.8831393 9.609652e-01   0.98364088 9.915963e-01   0.99698955 9.997430e-01 1.000000e+00
+
+#PC1
+
+A2021PC1 <- A2021PCA$map$PC1
+levelplot(A2021PC1)
+A2021MW <- focal(A2021PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+
+ risolvere problema par(mfrow=c(2,2))
 plotRGB(A1991PCA$map, 1, 2, 3, stretch="Lin")
 plotRGB(A2001PCA$map, 1, 2, 3, stretch="Lin")
 plotRGB(A2011PCA$map, 1, 2, 3, stretch="Lin")
@@ -114,8 +139,79 @@ A2021name <- ggRGB(A2021PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2021") 
 
 grid.arrange(A1991name, A2001name, A2011name, A2021name, nrow=2, top=textGrob("PCA in the years"))
 
+# Firme spettrali
+# plotto i file
+plotRGB(A1991, 4, 3, 2, stretch="lin")
+# Uso la funzione click per creare firme spettrali 
+click(A1991, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
+
+#        x        y     cell X1991A.B1 X1991A.B2 X1991A.B3 X1991A.B4 X1991A.B5 X1991A.B6
+# 1 312870 -1098300 21497990       118        46        38        73        48       133
+# 2 275610 -1150080 34840454       126        51        50        72       102       141
+# 3 244530 -1194600 46312222       137        53        48        69        67       133
+
+#true colors
+
+#        x        y     cell X1991A.B1 X1991A.B2 X1991A.B3 X1991A.B4 X1991A.B5 X1991A.B6
+# 1 310800 -1092780 20075417       117        46        38        65        43       133
+# 2 269730 -1149390 34662445       125        52        50        69       108       144
+# 3 243840 -1197360 47023451       138        55        52        60        85       139
+
+# Definire le colonne del dataset
 
 
+bandeA1991 <- c(1,2,3,4,5,6)
+AreaboschivaA1991 <- c(118,46,38,73,48,133)
+AreaacquaA1991 <- c(126,51,50,72,102,141)
+AreacittàA1991 <- c(137,53,48,69,67,133)
+
+bandeA1991true <- c(1,2,3,4,5,6)
+AreaboschivaA1991true <- c(117,46,38,65,43,133)
+AreaacquaA1991true <- c(125,52,50,69,108,144)
+AreacittàA1991true <- c(138,55,52,60,85,139)
+
+# Creo un data.frame
+
+spectrals <- data.frame(bandeA1991, AreaboschivaA1991, AreaacquaA1991, AreacittàA1991)
+spectralstrue <- data.frame(bandeA1991true, AreaboschivaA1991true, AreaacquaA1991true, AreacittàA1991true)
+
+
+# Carico file info (spectrals)
+spectrals
+spectralstrue
+
+#  bande AreaboschivaA1991 AreaacquaA1991 AreacittàA1991
+# 1     1               116           1134            126
+# 2     2                45             57             51
+# 3     3                38             57             47
+# 4     4                69             51             67
+# 5     5                50             15            104
+# 6     6               132            131            144
+
+# plotto firme spettrali
+# uso funzione ggplot
+# introduco funzione geom_line
+# funzione labs per modificare eticheete, legende e plottaggio
+
+sp <- ggplot(spectrals, aes(x=bandeA1991)) +
+ geom_line(aes(y=AreaboschivaA1991), color="red") +
+ geom_line(aes(y=AreaacquaA1991), color="blue") +
+ geom_line(aes(y=AreacittàA1991), color="green") +
+ labs(x="bande",y="reflectance")
+
+sptrue <- ggplot(spectralstrue, aes(x=bandeA1991true)) +
+ geom_line(aes(y=AreaboschivaA1991true), color="red") +
+ geom_line(aes(y=AreaacquaA1991true), color="blue") +
+ geom_line(aes(y=AreacittàA1991true), color="green") +
+ labs(x="bande",y="reflectance")
+ 
+ # Confronto i due grafici spectrals
+ 
+ grid.arrange(sp, sptrue, nrow=2, top=textGrob("differenza firme spettrali"))
+ 
+plotRGB(A2001, 4, 3, 2, stretch="lin")
+plotRGB(A2011, 4, 3, 2, stretch="lin")
+plotRGB(A2021, 5, 4, 3, stretch="lin")
 
 
 
