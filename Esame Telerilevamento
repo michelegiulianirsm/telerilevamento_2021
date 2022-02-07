@@ -248,11 +248,16 @@ labs(x="bande", y="reflectance")
 
 # Classificazione non supervisionata per una visualizzazione netta delle componenti di interesse
 
+Ari1991 <- unsuperClass(A1991, nClasses=4)
+Ari2001 <- unsuperClass(A2001, nClasses=4)
+Ari2011 <- unsuperClass(A2011, nClasses=4)
+Ari2021 <- unsuperClass(A2021, nClasses=4)
 
-
-
-
-
+par(mfrow=c(2,2))
+plot(Ari1991$map, main="1991")
+plot(Ari2001$map, main="2001")
+plot(Ari2011$map,main="2011")
+plot(Ari2021$map,main="2021")
 
 
 
