@@ -196,14 +196,14 @@ plotRGB(A2021, 5, 4, 3, stretch="lin")
 click(A2021, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
 
 #        x        y    cell  X2021A.B1 X2021A.B2 X2021A.B3 X2021A.B4 X2021A.B5 X2021A.B6 X2021A.B7
-# 1 306690 -1124700 30405164      9256      9967     11467     11266     17058     18924     14293
-# 2 269460 -1150230 36855354      8923      9788     11502     11617     16991     21564     16236
-# 3 248070 -1199160 49219252      8132      8850     10962     10411     10148      7929      7640
+# 1 306690 -1124700 30405164      92      99     114     112     170    189    142
+# 2 269460 -1150230 36855354      89      97     115     116     169    215    162
+# 3 248070 -1199160 49219252      81      88     109     104     101     79     76
 
 bandeA2021 <- c(2,3,4,5,6,7) # escludo banda uno perche è "costal aerosol"
-AreaboschivaA2021 <- c(9967,11467,11266,17058,18924,14293)
-AreacittàA2021 <- c(9788,11502,11617,16991,21564,16236)
-AreaacquaA2021 <- c( 8850,10962,10411,10148,7929,7640)
+AreaboschivaA2021 <- c(99,114,112,170,189,142)
+AreacittàA2021 <- c(97,115,116,169,215,162)
+AreaacquaA2021 <- c(88,10962,104,101,79,76)
 
 spectralsA2021 <- data.frame(bandeA2021, AreaboschivaA2021, AreacittàA2021, AreaacquaA2021)
 spectralsA2021
@@ -218,33 +218,49 @@ grid.arrange(spA1991, spA2021, nrow=2, top=textGrob("Confronto firme spettrali t
 
 bande_ <- c(1,2,3,4,5,6)
 Areaboschiva_A1991 <- c(118,46,38,73,48,133)
-Areaboschiva_A2021 <- c(9967,11467,11266,17058,18924,14293)
+Areaboschiva_A2021 <- c(99,114,112,170,189,142)
 Areacittà_A1991 <- c(126,51,50,72,102,141)
-Areacittà_A2021 <- c(9788,11502,11617,16991,21564,16236)
+Areacittà_A2021 <- c(97,115,116,169,215,162)
 Areaacqua_A1991 <- c(137,53,48,69,67,133)
-Areaacqua_A2021 <- c( 8850,10962,10411,10148,7929,7640)
+Areaacqua_A2021 <- c( 88,109,104,101,79,76)
 
 # Data frame 
 
 firmeS <- data.frame(bande_, Areaboschiva_A1991, Areaboschiva_A2021, Areacittà_A1991, Areacittà_A2021, AreaacquaA1991, AreaacquaA2021)
 firmeS
 
-#   bande_ Areaboschiva_A1991 Areaboschiva_A2021 Areacittà_A1991 Areacittà_A2021 AreaacquaA1991 AreaacquaA2021
-# 1      1                118               9967             126            9788            137           8850
-# 2      2                 46              11467              51           11502             53          10962
-# 3      3                 38              11266              50           11617             48          10411
-# 4      4                 73              17058              72           16991             69          10148
-# 5      5                 48              18924             102           21564             67           7929
-# 6      6                133              14293             141           16236            133           7640
+#  bande_ Areaboschiva_A1991 Areaboschiva_A2021 Areacittà_A1991 Areacittà_A2021 AreaacquaA1991 AreaacquaA2021
+# 1      1                118                 99             126              97            137           8850
+# 2      2                 46                114              51             115             53          10962
+# 3      3                 38                112              50             116             48          10411
+# 4      4                 73                170              72             169             69          10148
+# 5      5                 48                189             102             215             67           7929
+# 6      6                133                142             141             162            133           7640
 
 ggplot(firmeS, aes(x=bande_)) + 
-geom_line(aes(y=Areaboschiva_A1991), color="Yellow", size=1) +
+geom_line(aes(y=Areaboschiva_A1991), color="red", size=1) +
 geom_line(aes(y=Areaboschiva_A2021), color="green", size=1) +
-geom_line(aes(y=Areacittà_A1991), color="red", size=1) +
-geom_line(aes(y=Areacittà_A2021), color="brown", size=1) +
-geom_line(aes(y=Areaacqua_A1991), color="black", size=1) +
-geom_line(aes(y=Areaacqua_A2021), color="gray", size=1) +
+geom_line(aes(y=Areacittà_A1991), color="orange", size=1) +
+geom_line(aes(y=Areacittà_A2021), color="light green", size=1) +
+geom_line(aes(y=Areaacqua_A1991), color="dark red", size=1) +
+geom_line(aes(y=Areaacqua_A2021), color="dark green", size=1) +
 labs(x="bande", y="reflectance")
+
+# Classificazione non supervisionata per una visualizzazione netta delle componenti di interesse
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
