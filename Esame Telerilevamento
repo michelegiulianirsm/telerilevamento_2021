@@ -16,6 +16,12 @@ A1991<-stack(importA91)
 plot(A1991)
 # faccio lo stesso per le altre immagini
 
+#A91b<-list.files(pattern="A1991b")
+#importA91b<-lapply(A91b,raster)
+#A1991b<-stack(importA91b)
+#plot(A1991b)
+
+
 A01<-list.files(pattern="2001A")
 importA01<-lapply(A01,raster)
 A2001<-stack(importA01)
@@ -248,35 +254,53 @@ labs(x="bande", y="reflectance")
 
 # Classificazione non supervisionata per una visualizzazione netta delle componenti di interesse
 
-set.seed(42)
-Ari1991 <- unsuperClass(A1991, nClasses=10)
-Ari2001 <- unsuperClass(A2001, nClasses=10)
-Ari2011 <- unsuperClass(A2011, nClasses=10)
-Ari2021 <- unsuperClass(A2021, nClasses=10)
+set.seed(999)
+Ari1991 <- unsuperClass(A1991, nClasses=5)
+set.seed(999)
+Ari2001 <- unsuperClass(A2001, nClasses=5)
+set.seed(999)
+Ari2011 <- unsuperClass(A2011, nClasses=5)
+set.seed(999)
+Ari2021 <- unsuperClass(A2021, nClasses=5)
+
+color <- colorRampPalette(c("red", "yellow","green"))(100)
 
 par(mfrow=c(2,2))
-plot(Ari1991$map, main="1991")
-plot(Ari2001$map, main="2001")
-plot(Ari2011$map, main="2011")
-plot(Ari2021$map, main="2021")
+plot(Ari1991$map, main="1991", col=color)
+plot(Ari2001$map, main="2001", col=color)
+plot(Ari2011$map, main="2011", col=color)
+plot(Ari2021$map, main="2021", col=color)
+
+dev.off()
+
+
+
+A2021a <- stretch(A2021, minv=-17, maxv=258, minq=0, maxq=1, smin=NA, smax=NA)
+A2021a <- stretch(A2021, minv=0, maxv=255)
+A2021a
 
 
 
 
 
+ p2001 <- plotRGB(A2001, 4, 3, 2, stretch="lin")
 
+set.seed(999)
+Ari1991 <- unsuperClass(A1991PC1, nClasses=5)
+set.seed(999)
+Ari2001 <- unsuperClass(A2001PC1, nClasses=5)
+set.seed(999)
+Ari2011 <- unsuperClass(A2011PC1, nClasses=5)
+set.seed(999)
+Ari2021 <- unsuperClass(A2021PC1, nClasses=5)
 
+color <- colorRampPalette(c("red", "yellow","green"))(100)
 
-
-
-
-
-
-
-
-
-
-
+par(mfrow=c(2,2))
+plot(Ari1991$map, main="1991", col=color)
+plot(Ari2001$map, main="2001", col=color)
+plot(Ari2011$map, main="2011", col=color)
+plot(Ari2021$map, main="2021", col=color)
 
 
 
