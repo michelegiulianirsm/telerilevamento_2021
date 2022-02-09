@@ -1,3 +1,6 @@
+# Esame Telerilevamento
+
+
 library(raster) 
 library(rasterVis) # posso utilizzare la funzione levelplot
 library(rgdal) # mi permette di analizzare le firme spettrali
@@ -285,37 +288,57 @@ plot(Ari2021NDVI$map, main="2021", col=color)
 # Utilizzo la funzione "freq" per visualizzare i pixel di interesse a secondo delle aree di studio 
 
 freq(Ari1991NDVI$map)
-
+freq1991nan <- freq(Ari1991NDVI$map)
 #      value  count
-# [1,]     1   4695
-# [2,]     2  18466
-# [3,]     3 200587
-# [4,]     4 164783
+# [1,]     1   4695 # Fiume
+# [2,]     2  18466 # Campi coltivati
+# [3,]     3 200587 # Vegetazione
+# [4,]     4 164783 # Vegetazione
 
+------------------------------------------------------------------------------------------------
+
+1991NANO <- subset(freq1991nan, value>NA)
+----------------------------------------------------------------------------------------------------------------------
+newfreq1991 <- list(4695, 1846, 200587, 164783)
+
+
+# Calcolo le proporzioni in percentuale(%)
+# Innanzitutto calcolo somma dei valori 
+
+S1991 <- 4695 + 18466 + 200587 + 164783 # Tot. 388531
+
+newfreq1991 <- list(4695, 1846, 200587, 164783)
+
+Prop1991 <- freq(newfreq1991) / S1991
+Prop1991 <- f / S1991
+Prop1991
+
+
+
+----------------------------------------------------------------
 freq(Ari2001NDVI$map)
 
 #      value  count
-# [1,]     1  50591
-# [2,]     2   4017
-# [3,]     3 304413
-# [4,]     4  21403
+# [1,]     1  50591 # Campi coltivati
+# [2,]     2   4017 # Fiume
+# [3,]     3 304413 # Vegetazione
+# [4,]     4  21403 # Campi coltivati
 
 freq(Ari2011NDVI$map)
 
 #      value  count
-# [1,]     1 294666
-# [2,]     2   4123
-# [3,]     3  45150
-# [4,]     4  43856
-# [5,]    NA 158193
+# [1,]     1 294666 # Vegetazione
+# [2,]     2   4123 # Fiume
+# [3,]     3  45150 # Campi coltivati
+# [4,]     4  43856 # Campi coltivati
+
 freq(Ari2021NDVI$map)
 
 #      value  count
-# [1,]     1  62968
-# [2,]     2  77051
-# [3,]     3 250551
-# [4,]     4  17498
-# [5,]    NA 177880
+# [1,]     1  62968 # Campi coltivati
+# [2,]     2  77051 # Campi coltivati
+# [3,]     3 250551 # Vegetazione
+# [4,]     4  17498 # Fiume
 
 dev.off()
 
