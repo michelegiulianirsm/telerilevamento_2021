@@ -7,13 +7,15 @@ library(gridExtra)   # permette l'uso e creazione di tabelle e grafici
 library(grid)
 setwd("C:/lab/Landsatesame")
 
-# _______________________uso list files per creare una lista di files__________________________
+# _______________________Uso list files per creare una lista di files__________________________
+
 A91<-list.files(pattern="1991A")
 # lapply permette di importare la lista di file 
 importA91<-lapply(A91,raster)
 # Funzione stack crea un unico pacchetto di file
 A1991<-stack(importA91)
 plot(A1991)
+
 # faccio lo stesso per le altre immagini
 
 #A91b<-list.files(pattern="A1991b")
@@ -64,6 +66,7 @@ plot(NDVI2011, main="Anno 2011")
 plot(NDVI2021, main="Anno 2021") 
 
 # ________________Ora faccio analisi delle componenti principali (PCA)_________________________
+
 # funzione aggregate per alleggerire file fact=10
 
 A1991RES <- aggregate(A1991, fact=10) 
@@ -123,12 +126,6 @@ summary(A2021PCA1$model)
 #Proportion of Variance    0.8831393 7.782592e-02   0.02267567 7.955377e-03   0.00539329 2.753422e-03 2.570264e-04
 #Cumulative Proportion     0.8831393 9.609652e-01   0.98364088 9.915963e-01   0.99698955 9.997430e-01 1.000000e+00
 
-#PC1
-
-A2021PC1 <- A2021PCA$map$PC1
-levelplot(A2021PC1)
-A2021MW <- focal(A2021PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
-
  risolvere problema par(mfrow=c(2,2))
 plotRGB(A1991PCA$map, 1, 2, 3, stretch="Lin")
 plotRGB(A2001PCA$map, 1, 2, 3, stretch="Lin")
@@ -146,7 +143,8 @@ A2021name <- ggRGB(A2021PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2021") 
 
 grid.arrange(A1991name, A2001name, A2011name, A2021name, nrow=2, top=textGrob("PCA in the years"))
 
-#_________ Firme spettrali __________________________________
+#_______________ Firme spettrali __________________________________
+
 # plotto i file
 plotRGB(A1991, 4, 3, 2, stretch="lin")
 
@@ -252,58 +250,72 @@ geom_line(aes(y=Areaacqua_A1991), color="dark red", size=1) +
 geom_line(aes(y=Areaacqua_A2021), color="dark green", size=1) +
 labs(x="bande", y="reflectance")
 
-# Classificazione non supervisionata per una visualizzazione netta delle componenti di interesse
+# _____________________Classificazione non supervisionata per una visualizzazione netta delle componenti di interesse___________________________
 
-set.seed(999)
-Ari1991 <- unsuperClass(A1991, nClasses=5)
-set.seed(999)
-Ari2001 <- unsuperClass(A2001, nClasses=5)
-set.seed(999)
-Ari2011 <- unsuperClass(A2011, nClasses=5)
-set.seed(999)
-Ari2021 <- unsuperClass(A2021, nClasses=5)
-
-color <- colorRampPalette(c("red", "yellow","green"))(100)
+NDVI1991 <- (A1991RES[[4]] - A1991RES[[3]]) / (A1991RES[[4]] + A1991RES[[3]]) 
+NDVI2001 <- (A2001RES[[4]] - A2001RES[[3]]) / (A2001RES[[4]] + A2001RES[[3]])
+NDVI2011 <- (A2011RES[[4]] - A2011RES[[3]]) / (A2011RES[[4]] + A2011RES[[3]])
+NDVI2021 <- (A2021RES[[5]] - A2021RES[[4]]) / (A2021RES[[5]] + A2021RES[[4]])
 
 par(mfrow=c(2,2))
-plot(Ari1991$map, main="1991", col=color)
-plot(Ari2001$map, main="2001", col=color)
-plot(Ari2011$map, main="2011", col=color)
-plot(Ari2021$map, main="2021", col=color)
+plot(NDVI1991, main="Anno 1991") 
+plot(NDVI2001, main="Anno 2001") 
+plot(NDVI2011, main="Anno 2011") 
+plot(NDVI2021, main="Anno 2021") 
+
+
+set.seed(999)
+Ari1991NDVI <- unsuperClass(NDVI1991, nClasses=4)
+set.seed(999)
+Ari2001NDVI <- unsuperClass(NDVI2001, nClasses=4)
+set.seed(999)
+Ari2011NDVI <- unsuperClass(NDVI2011, nClasses=4)
+set.seed(999)
+Ari2021NDVI <- unsuperClass(NDVI2021, nClasses=4)
+
+
+color <- colorRampPalette(c("red", "yellow", "green", "blue"))(100)
+
+par(mfrow=c(2,2))
+plot(Ari1991NDVI$map, main="1991", col=color)
+plot(Ari2001NDVI$map, main="2001", col=color)
+plot(Ari2011NDVI$map, main="2011", col=color)
+plot(Ari2021NDVI$map, main="2021", col=color)
+
+# Utilizzo la funzione "freq" per visualizzare i pixel di interesse a secondo delle aree di studio 
+
+freq(Ari1991NDVI$map)
+
+#      value  count
+# [1,]     1   4695
+# [2,]     2  18466
+# [3,]     3 200587
+# [4,]     4 164783
+
+freq(Ari2001NDVI$map)
+
+#      value  count
+# [1,]     1  50591
+# [2,]     2   4017
+# [3,]     3 304413
+# [4,]     4  21403
+
+freq(Ari2011NDVI$map)
+
+#      value  count
+# [1,]     1 294666
+# [2,]     2   4123
+# [3,]     3  45150
+# [4,]     4  43856
+# [5,]    NA 158193
+freq(Ari2021NDVI$map)
+
+#      value  count
+# [1,]     1  62968
+# [2,]     2  77051
+# [3,]     3 250551
+# [4,]     4  17498
+# [5,]    NA 177880
 
 dev.off()
-
-
-
-A2021a <- stretch(A2021, minv=-17, maxv=258, minq=0, maxq=1, smin=NA, smax=NA)
-A2021a <- stretch(A2021, minv=0, maxv=255)
-A2021a
-
-
-
-
-
- p2001 <- plotRGB(A2001, 4, 3, 2, stretch="lin")
-
-set.seed(999)
-Ari1991 <- unsuperClass(A1991PC1, nClasses=5)
-set.seed(999)
-Ari2001 <- unsuperClass(A2001PC1, nClasses=5)
-set.seed(999)
-Ari2011 <- unsuperClass(A2011PC1, nClasses=5)
-set.seed(999)
-Ari2021 <- unsuperClass(A2021PC1, nClasses=5)
-
-color <- colorRampPalette(c("red", "yellow","green"))(100)
-
-par(mfrow=c(2,2))
-plot(Ari1991$map, main="1991", col=color)
-plot(Ari2001$map, main="2001", col=color)
-plot(Ari2011$map, main="2011", col=color)
-plot(Ari2021$map, main="2021", col=color)
-
-
-
-
-
 
