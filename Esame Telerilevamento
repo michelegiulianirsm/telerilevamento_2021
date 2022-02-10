@@ -19,48 +19,59 @@ importA91<-lapply(A91,raster)
 A1991<-stack(importA91)
 plot(A1991)
 
+e <- extent(200000,320000,-1190000,-1040000)
+A1991crop <- crop(A1991, e)
+plotRGB(A1991crop, 4, 3, 2, stretch="lin")
+
+
 # faccio lo stesso per le altre immagini
-
-#A91b<-list.files(pattern="A1991b")
-#importA91b<-lapply(A91b,raster)
-#A1991b<-stack(importA91b)
-#plot(A1991b)
-
 
 A01<-list.files(pattern="2001A")
 importA01<-lapply(A01,raster)
 A2001<-stack(importA01)
 plot(A2001)
 
+e <- extent(200000,320000,-1190000,-1040000)
+A2001crop <- crop(A2001, e)
+plotRGB(A2001crop, 4, 3, 2, stretch="lin")
+
 A11<-list.files(pattern="2011A")
 importA11<-lapply(A11,raster)
 A2011<-stack(importA11)
 plot(A2011)
+
+e <- extent(200000,320000,-1190000,-1040000)
+A2011crop <- crop(A2011, e)
+plotRGB(A2011crop, 4, 3, 2, stretch="lin")
 
 A21<-list.files(pattern="2021A")
 importA21<-lapply(A21,raster)
 A2021<-stack(importA21)
 plot(A2021)
 
+e <- extent(200000,320000,-1190000,-1040000)
+A2021crop <- crop(A2021, e)
+plotRGB(A2021crop, 4, 3, 2, stretch="lin")
+
 par(mfrow=c(2,2))
-plotRGB(A1991, 3, 2, 1, stretch="Lin")
-plotRGB(A2021, 4, 3, 2, stretch="Lin")
+plotRGB(A1991crop, 3, 2, 1, stretch="Lin")
+plotRGB(A2021crop, 4, 3, 2, stretch="Lin")
 
 # comparo le quattro immagini con plotRGB e plotNDVI per anali vegetazione 
 #plotRGB
 
 par(mfrow=c(2,2))
-plotRGB(A1991, 4, 3, 2, stretch="lin")
-plotRGB(A2001, 4, 3, 2, stretch="lin")
-plotRGB(A2011, 4, 3, 2, stretch="lin")
-plotRGB(A2021, 5, 4, 3, stretch="lin")
+plotRGB(A1991crop, 4, 3, 2, stretch="lin")
+plotRGB(A2001crop, 4, 3, 2, stretch="Lin")
+plotRGB(A2011crop, 4, 3, 2, stretch="lin")
+plotRGB(A2021crop, 5, 4, 3, stretch="lin")
 
 #plotNDVI
 
-NDVI1991 <- (A1991[[4]] - A1991[[3]]) / (A1991[[4]] + A1991[[3]]) 
-NDVI2001 <- (A2001[[4]] - A2001[[3]]) / (A2001[[4]] + A2001[[3]])
-NDVI2011 <- (A2011[[4]] - A2011[[3]]) / (A2011[[4]] + A2011[[3]])
-NDVI2021 <- (A2021[[5]] - A2021[[4]]) / (A2021[[5]] + A2021[[4]])
+NDVI1991 <- (A1991crop[[4]] - A1991crop[[3]]) / (A1991crop[[4]] + A1991crop[[3]]) 
+NDVI2001 <- (A2001crop[[4]] - A2001crop[[3]]) / (A2001crop[[4]] + A2001crop[[3]])
+NDVI2011 <- (A2011crop[[4]] - A2011crop[[3]]) / (A2011crop[[4]] + A2011crop[[3]])
+NDVI2021 <- (A2021crop[[5]] - A2021crop[[4]]) / (A2021crop[[5]] + A2021crop[[4]])
 
 par(mfrow=c(2,2))
 plot(NDVI1991, main="Anno 1991") 
@@ -72,10 +83,10 @@ plot(NDVI2021, main="Anno 2021")
 
 # funzione aggregate per alleggerire file fact=10
 
-A1991RES <- aggregate(A1991, fact=10) 
-A2001RES <- aggregate(A2001, fact=10) 
-A2011RES <- aggregate(A2011, fact=10) 
-A2021RES <- aggregate(A2021, fact=10) 
+A1991RES <- aggregate(A1991crop, fact=10) 
+A2001RES <- aggregate(A2001crop, fact=10) 
+A2011RES <- aggregate(A2011crop, fact=10) 
+A2021RES <- aggregate(A2021crop, fact=10) 
 
 #PCA
 
@@ -129,7 +140,7 @@ summary(A2021PCA1$model)
 #Proportion of Variance    0.8831393 7.782592e-02   0.02267567 7.955377e-03   0.00539329 2.753422e-03 2.570264e-04
 #Cumulative Proportion     0.8831393 9.609652e-01   0.98364088 9.915963e-01   0.99698955 9.997430e-01 1.000000e+00
 
- risolvere problema par(mfrow=c(2,2))
+# risolvere problema par(mfrow=c(2,2))
 plotRGB(A1991PCA$map, 1, 2, 3, stretch="Lin")
 plotRGB(A2001PCA$map, 1, 2, 3, stretch="Lin")
 plotRGB(A2011PCA$map, 1, 2, 3, stretch="Lin")
@@ -145,6 +156,134 @@ A2021name <- ggRGB(A2021PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2021") 
 #utilizzo la funzione grid.arrange per visualizzarli assieme 
 
 grid.arrange(A1991name, A2001name, A2011name, A2021name, nrow=2, top=textGrob("PCA in the years"))
+
+
+
+# _____________________Classificazione non supervisionata per una visualizzazione netta delle componenti di interesse___________________________
+
+set.seed(999)
+Ari1991 <- unsuperClass(A1991crop, nClasses=4)
+set.seed(999)
+Ari2001 <- unsuperClass(A2001crop, nClasses=4)
+set.seed(999)
+Ari2011 <- unsuperClass(A2011crop, nClasses=4)
+set.seed(999)
+Ari2021 <- unsuperClass(A2021crop, nClasses=4)
+
+color <- colorRampPalette(c("red", "yellow", "green", "blue"))(100)
+
+par(mfrow=c(2,2))
+plot(Ari1991$map, main="1991", col=color)
+plot(Ari2001$map, main="2001", col=color)
+plot(Ari2011$map, main="2011", col=color)
+plot(Ari2021$map, main="2021", col=color)
+
+# Utilizzo la funzione "freq" per visualizzare i pixel di interesse a secondo delle aree di studio 
+
+freq(Ari1991$map)
+
+#      value    count
+# [1,]     1   364921
+# [2,]     2   924298
+# [3,]     3 12623161
+# [4,]     4  9417620
+
+freq(Ari2001$map)
+
+#  value    count
+# [1,]     1  1505628
+# [2,]     2 20226681
+# [3,]     3  1203963
+# [4,]     4   393728
+
+freq(Ari2011$map)
+
+#    value    count
+# [1,]     1  2690096
+# [2,]     2   405564
+# [3,]     3 18112793
+# [4,]     4  2121547
+
+#      value  count
+# [1,]     1  62968 # Campi coltivati
+# [2,]     2  77051 # Campi coltivati
+# [3,]     3 250551 # Vegetazione
+# [4,]     4  17498 # Fiume
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+dev.off()
+
+e <- extent(180000,320000,-1190000,-1040000)
+
+A21<-list.files(pattern="2021A")
+importA21<-lapply(A21,raster)
+A2021<-stack(importA21)
+plot(A2021)
+
+e <- extent(200000,320000,-1190000,-1040000)
+A2021CCcropp <- crop(A2021, e)
+plotRGB(A2021CCcropp, 4, 3, 2, stretch="lin")
+
+set.seed(999)
+AriCCp2021 <- unsuperClass(A2021CCcropp, nClasses=4)
+
+freq(AriCCp2021$map)
+
+
+# plotto i file
+plotRGB(A1991, 4, 3, 2, stretch="lin")
+
+# Uso la funzione click per creare firme spettrali 
+click(A1991, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
+
+#       x        y     cell X1991A.B1 X1991A.B2 X1991A.B3 X1991A.B4 X1991A.B5 X1991A.B6
+#1 282360 -1145370 33626912       117        46        38        71        47       131
+#2 299190 -1087950 18830339       114        44        36        67        46       133
+
+bandeA1991 <- c(1,2,3,4,5,6)
+AreaboschivaA1991 <- c( 117, 46, 38, 71, 47, 131)
+AreacittàA1991 <- c(114, 44, 36, 67, 46, 133)
+
+spectrals1991 <- data.frame(AreaboschivaA1991, AreacittàA1991)
+spectrals1991
+
+
+
+
+# plotto firme spettrali
+# uso funzione ggplot
+# introduco funzione geom_line
+# funzione labs per modificare eticheete, legende e plottaggio
+
+spA1991 <- ggplot(spectrals1991, aes(x=bandeA1991)) +
+ geom_line(aes(y=AreaboschivaA1991), color="red") +
+ geom_line(aes(y=AreacittàA1991), color="black")
+
+plotRGB(A2021, 5, 4, 3, stretch="lin")
+
+click(A2021, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
+
+       x        y     cell X2021A.B1 X2021A.B2 X2021A.B3 X2021A.B4 X2021A.B5 X2021A.B6 X2021A.B7
+1 280260 -1148730 36476664      95    101     116     119     171     204     162
+2 299640 -1106340 25765357      96    101     113     109     162     194     149
+
+bandeA2021 <- c(1,2,3,4,5,6)
+AreaboschivaA2021 <- c(95, 101, 116, 119, 171, 204)
+AreacittàA2021 <- c(96, 101, 113, 109, 162, 194)
+
+
+
+spectrals2021 <- data.frame(AreaboschivaA2021, AreacittàA2021)
+spectrals2021
+
+spA2021 <- ggplot(spectrals2021, aes(x=bandeA2021)) +
+ geom_line(aes(y=AreaboschivaA2021), color="red") +
+ geom_line(aes(y=AreacittàA2021), color="black")
+ 
+grid.arrange(spA1991, spA2021, nrow=2, top=textGrob("Confronto firme spettrali tra anno 1991 e 2021"))
 
 #_______________ Firme spettrali __________________________________
 
@@ -253,92 +392,4 @@ geom_line(aes(y=Areaacqua_A1991), color="dark red", size=1) +
 geom_line(aes(y=Areaacqua_A2021), color="dark green", size=1) +
 labs(x="bande", y="reflectance")
 
-# _____________________Classificazione non supervisionata per una visualizzazione netta delle componenti di interesse___________________________
-
-NDVI1991 <- (A1991RES[[4]] - A1991RES[[3]]) / (A1991RES[[4]] + A1991RES[[3]]) 
-NDVI2001 <- (A2001RES[[4]] - A2001RES[[3]]) / (A2001RES[[4]] + A2001RES[[3]])
-NDVI2011 <- (A2011RES[[4]] - A2011RES[[3]]) / (A2011RES[[4]] + A2011RES[[3]])
-NDVI2021 <- (A2021RES[[5]] - A2021RES[[4]]) / (A2021RES[[5]] + A2021RES[[4]])
-
-par(mfrow=c(2,2))
-plot(NDVI1991, main="Anno 1991") 
-plot(NDVI2001, main="Anno 2001") 
-plot(NDVI2011, main="Anno 2011") 
-plot(NDVI2021, main="Anno 2021") 
-
-
-set.seed(999)
-Ari1991NDVI <- unsuperClass(NDVI1991, nClasses=4)
-set.seed(999)
-Ari2001NDVI <- unsuperClass(NDVI2001, nClasses=4)
-set.seed(999)
-Ari2011NDVI <- unsuperClass(NDVI2011, nClasses=4)
-set.seed(999)
-Ari2021NDVI <- unsuperClass(NDVI2021, nClasses=4)
-
-
-color <- colorRampPalette(c("red", "yellow", "green", "blue"))(100)
-
-par(mfrow=c(2,2))
-plot(Ari1991NDVI$map, main="1991", col=color)
-plot(Ari2001NDVI$map, main="2001", col=color)
-plot(Ari2011NDVI$map, main="2011", col=color)
-plot(Ari2021NDVI$map, main="2021", col=color)
-
-# Utilizzo la funzione "freq" per visualizzare i pixel di interesse a secondo delle aree di studio 
-
-freq(Ari1991NDVI$map)
-freq1991nan <- freq(Ari1991NDVI$map)
-#      value  count
-# [1,]     1   4695 # Fiume
-# [2,]     2  18466 # Campi coltivati
-# [3,]     3 200587 # Vegetazione
-# [4,]     4 164783 # Vegetazione
-
-------------------------------------------------------------------------------------------------
-
-1991NANO <- subset(freq1991nan, value>NA)
-----------------------------------------------------------------------------------------------------------------------
-newfreq1991 <- list(4695, 1846, 200587, 164783)
-
-
-# Calcolo le proporzioni in percentuale(%)
-# Innanzitutto calcolo somma dei valori 
-
-S1991 <- 4695 + 18466 + 200587 + 164783 # Tot. 388531
-
-newfreq1991 <- list(4695, 1846, 200587, 164783)
-
-Prop1991 <- freq(newfreq1991) / S1991
-Prop1991 <- f / S1991
-Prop1991
-
-
-
-----------------------------------------------------------------
-freq(Ari2001NDVI$map)
-
-#      value  count
-# [1,]     1  50591 # Campi coltivati
-# [2,]     2   4017 # Fiume
-# [3,]     3 304413 # Vegetazione
-# [4,]     4  21403 # Campi coltivati
-
-freq(Ari2011NDVI$map)
-
-#      value  count
-# [1,]     1 294666 # Vegetazione
-# [2,]     2   4123 # Fiume
-# [3,]     3  45150 # Campi coltivati
-# [4,]     4  43856 # Campi coltivati
-
-freq(Ari2021NDVI$map)
-
-#      value  count
-# [1,]     1  62968 # Campi coltivati
-# [2,]     2  77051 # Campi coltivati
-# [3,]     3 250551 # Vegetazione
-# [4,]     4  17498 # Fiume
-
-dev.off()
 
