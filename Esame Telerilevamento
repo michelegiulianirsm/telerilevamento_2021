@@ -51,7 +51,7 @@ plot(A2021)
 
 e <- extent(200000,320000,-1190000,-1040000)
 A2021crop <- crop(A2021, e)
-plotRGB(A2021crop, 4, 3, 2, stretch="lin")
+plotRGB(A2021crop, 5, 4, 3, stretch="lin")
 
 par(mfrow=c(2,2))
 plotRGB(A1991crop, 3, 2, 1, stretch="Lin")
