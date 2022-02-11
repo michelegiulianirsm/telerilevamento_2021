@@ -248,6 +248,33 @@ prop2021 <- freq(Ari2021$map) / Tot
 # [4,] 2.0e-07 0.19520440                  19.5  Agricola
 # [5,]      NA 0.00000015                    NC
 
+# Clcolo area totale modificata negli anni 
+# Area tot di interesse -> 18000
+
+# Anno 1991
+#            Percentuale (%)        Area
+#                        4.5    Agricola
+#                       93.6    Boschiva
+#                        1.7       Fiume
+
+# Anno 2001
+#            Percentuale (%)        Area                        
+#                       12.4    Agricola
+#                       85.7    Boschiva
+#                        1.8       Fiume
+# Anno 2011
+#             Percentuale (%)      Aree
+#                        22.0  Agricola
+#                        76.0  Boschiva
+#                         1.8     Fiume
+# Anno2021
+
+#             Percentuale (%)      Aree
+#                        32.5  Agricola
+#                        65.5  Boschiva
+#                         1.9     Fiume
+#                          NC
+
 
 -------------------------------------------------------------------------------------------------------
 dev.off()
