@@ -276,6 +276,21 @@ prop2021 <- freq(Ari2021$map) / Tot
 #                         1.9     Fiume
 #                          NC
 
+# Plottaggio con ggplot per le percentuali negli anni
+# Buildiamo un dataframe
+
+cover       <- c( "Agricola", "Boschiva", "Fiume")
+percent1991 <- c(4.5, 93.9, 1.7)
+percent2001 <- c(12.4, 85.7, 1.8)
+percent2011 <- c(22, 76, 1.8)
+percent2021 <- c(32.5, 65.5, 1.9)
+
+
+
+
+
+
+
 
 -------------------------------------------------------------------------------------------------------
 dev.off()
