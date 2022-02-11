@@ -23,7 +23,6 @@ e <- extent(200000,320000,-1190000,-1040000)
 A1991crop <- crop(A1991, e)
 plotRGB(A1991crop, 4, 3, 2, stretch="lin")
 
-
 # faccio lo stesso per le altre immagini
 
 A01<-list.files(pattern="2001A")
@@ -53,8 +52,17 @@ e <- extent(200000,320000,-1190000,-1040000)
 A2021crop <- crop(A2021, e)
 plotRGB(A2021crop, 5, 4, 3, stretch="lin")
 
-par(mfrow=c(2,2))
+par(mfrow=c(1,2), mar=c(2,2,2,2))
 plotRGB(A1991crop, 3, 2, 1, stretch="Lin")
+plotRGB(A2001crop, 3, 2, 1, stretch="Lin")
+
+png("C:/lab/Landsatesame/Grafico.png", width= 4000, height=1800, res=300)
+plot(
+
+
+
+par(mfrow=c(1,2), mar=c(2,2,2,2))
+plotRGB(A2011crop, 3, 2, 1, stretch="Lin")
 plotRGB(A2021crop, 4, 3, 2, stretch="Lin")
 
 # comparo le quattro immagini con plotRGB e plotNDVI per anali vegetazione 
@@ -313,9 +321,10 @@ plot(Grafico)
 dev.off()
 
 
-
-
-
+#immagine1991 <- plotRGB(A1991crop, 3, 2, 1, stretch="lin")
+#immagine2001 <- plotRGB(A2001crop, 3, 2, 1, stretch="lin")
+#immagine2011 <- plotRGB(A2011crop, 3, 2, 1, stretch="lin")
+#immagine2021 <- plotRGB(A2021crop, 4, 3, 2, stretch="lin")
 
 
 
