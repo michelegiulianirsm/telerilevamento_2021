@@ -302,11 +302,15 @@ perc2021 <- ggplot( percentages, aes( x=Aree, y=Percentuali_2021)) + geom_bar(st
 # metto a confronto percentuali 
 
 grid.arrange(perc1991, perc2001, perc2011, perc2021, nrow=2)
+Grafico <- grid.arrange(perc1991, perc2001, perc2011, perc2021, nrow=2)
+Grafico
 
+# Salvare immagini di R
 
+png("C:/lab/Landsatesame/Grafico.png", width= 4000, height=1800, res=300)
+plot(Grafico)
 
-
-
+dev.off()
 
 
 
