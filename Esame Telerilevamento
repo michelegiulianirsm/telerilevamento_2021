@@ -274,16 +274,40 @@ prop2021 <- freq(Ari2021$map) / Tot
 #                        32.5  Agricola
 #                        65.5  Boschiva
 #                         1.9     Fiume
-#                          NC
 
 # Plottaggio con ggplot per le percentuali negli anni
 # Buildiamo un dataframe
 
-cover       <- c( "Agricola", "Boschiva", "Fiume")
-percent1991 <- c(4.5, 93.9, 1.7)
-percent2001 <- c(12.4, 85.7, 1.8)
-percent2011 <- c(22, 76, 1.8)
-percent2021 <- c(32.5, 65.5, 1.9)
+Aree       <- c( "Agricola", "Boschiva", "Fiume")
+Percentuali_1991 <- c(4.5, 93.9, 1.7)
+Percentuali_2001 <- c(12.4, 85.7, 1.8)
+Percentuali_2011 <- c(22, 76, 1.8)
+Percentuali_2021 <- c(32.5, 65.5, 1.9)
+
+percentages <- data.frame(Aree,Percentuali_1991,Percentuali_2001,Percentuali_2011,Percentuali_2021)
+percentages
+
+#       Aree Percentuali_1991 Percentuali_2001 Percentuali_2011 Percentuali_021
+# 1 Agricola              4.5             12.4             22.0            32.5
+# 2 Boschiva             93.9             85.7             76.0            65.5
+# 3    Fiume              1.7              1.8              1.8             1.9
+
+# carico con ggplot
+
+perc1991 <- ggplot( percentages, aes( x=Aree, y=Percentuali_1991)) + geom_bar(stat="identity", fill="orange")
+perc2001 <- ggplot( percentages, aes( x=Aree, y=Percentuali_2001)) + geom_bar(stat="identity", fill="orange")
+perc2011 <- ggplot( percentages, aes( x=Aree, y=Percentuali_2011)) + geom_bar(stat="identity", fill="orange")
+perc2021 <- ggplot( percentages, aes( x=Aree, y=Percentuali_2021)) + geom_bar(stat="identity", fill="orange")
+
+# metto a confronto percentuali 
+
+grid.arrange(perc1991, perc2001, perc2011, perc2021, nrow=2)
+
+
+
+
+
+
 
 
 
