@@ -315,17 +315,21 @@ Grafico
 
 # Salvare immagini di R
 
-png("C:/lab/Landsatesame/Grafico.png", width= 4000, height=1800, res=300)
-plot(Grafico)
-
-dev.off()
-
+#png("C:/lab/Landsatesame/Grafico.png", width= 4000, height=1800, res=300)
+#plot(Grafico)
 
 #immagine1991 <- plotRGB(A1991crop, 3, 2, 1, stretch="lin")
 #immagine2001 <- plotRGB(A2001crop, 3, 2, 1, stretch="lin")
 #immagine2011 <- plotRGB(A2011crop, 3, 2, 1, stretch="lin")
 #immagine2021 <- plotRGB(A2021crop, 4, 3, 2, stretch="lin")
 
+
+
+
+
+
+
+dev.ogg()
 
 
 
