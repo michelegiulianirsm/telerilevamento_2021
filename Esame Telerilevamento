@@ -249,27 +249,28 @@ prop2021 <- freq(Ari2021$map) / Tot
 # [5,]      NA 0.00000015                    NC
 
 # Clcolo area totale modificata negli anni 
-# Area tot di interesse -> 18000
+# Area tot di interesse -> 18000km quadrati
 
 # Anno 1991
-#            Percentuale (%)       Area
-#                        4.5   Agricola
-#                       93.6   Boschiva
-#                        1.7      Fiume
+#            Percentuale (%)       Area       Km quadrati occupati
+#                        4.5   Agricola                        810
+#                       93.6   Boschiva                      16848  
+#                        1.7      Fiume                        306   
 
 # Anno 2001
-#            Percentuale (%)       Area                        
+#            Percentuale (%)       Area       Km quadrati occupati                        
 #                       12.4   Agricola
 #                       85.7   Boschiva
 #                        1.8      Fiume
+
 # Anno 2011
-#             Percentuale (%)      Aree
+#             Percentuale (%)      Aree       Km quadrati occupati
 #                        22.0  Agricola
 #                        76.0  Boschiva
 #                         1.8     Fiume
 # Anno2021
 
-#             Percentuale (%)      Aree
+#             Percentuale (%)      Aree       Km quadrati occupati
 #                        32.5  Agricola
 #                        65.5  Boschiva
 #                         1.9     Fiume
