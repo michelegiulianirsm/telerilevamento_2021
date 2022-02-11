@@ -170,7 +170,7 @@ Ari2011 <- unsuperClass(A2011crop, nClasses=4)
 set.seed(999)
 Ari2021 <- unsuperClass(A2021crop, nClasses=4)
 
-color <- colorRampPalette(c("red", "yellow", "green", "blue"))(100)
+color <- colorRampPalette(c(" light blue", "dark blue", "red", "orange"))(100)
 
 par(mfrow=c(2,2))
 plot(Ari1991$map, main="1991", col=color)
@@ -180,35 +180,66 @@ plot(Ari2021$map, main="2021", col=color)
 
 # Utilizzo la funzione "freq" per visualizzare i pixel di interesse a secondo delle aree di studio 
 
+Tot <- 909841 + 336690 + 11626443 + 11626443    #   = 24499417
+
 freq(Ari1991$map)
 
 #      value    count
-# [1,]     1   364921
-# [2,]     2   924298
-# [3,]     3 12623161
-# [4,]     4  9417620
+# [1,]     1   909841
+# [2,]     2   336690
+# [3,]     3 11626443
+# [4,]     4  11626443
+
+prop1991 <- freq(Ari1991$map) / Tot
+
+#             value      count
+# [1,] 4.081730e-08 0.03713725
+# [2,] 8.163460e-08 0.01374278
+# [3,] 1.224519e-07 0.47455999
+# [4,] 1.632692e-07 0.29090594
 
 freq(Ari2001$map)
 
 #  value    count
-# [1,]     1  1505628
-# [2,]     2 20226681
-# [3,]     3  1203963
-# [4,]     4   393728
+# [1,]     1   363758
+# [2,]     2  1391835
+# [3,]     3 17155901
+# [4,]     4  1088506
+
+prop2001 <- freq(Ari2001$map) / Tot
+
+#             value      count
+# [1,] 4.081730e-08 0.01484762
+# [2,] 8.163460e-08 0.05681094
+# [3,] 1.224519e-07 0.70025752
+# [4,] 1.632692e-07 0.04442987
 
 freq(Ari2011$map)
 
 #    value    count
-# [1,]     1  2690096
-# [2,]     2   405564
-# [3,]     3 18112793
-# [4,]     4  2121547
+# [1,]     1   372971
+# [2,]     2 15210663
+# [3,]     3  2428076
+# [4,]     4  1988290
+
+prop2011 <- freq(Ari2011$map) / Tot
+
+#             value      count
+# [1,] 4.081730e-08 0.01522367
+# [2,] 8.163460e-08 0.62085816
+# [3,] 1.224519e-07 0.09910750
+# [4,] 1.632692e-07 0.08115663
+
+freq(Ari2021$map)
 
 #      value  count
-# [1,]     1  62968 # Campi coltivati
-# [2,]     2  77051 # Campi coltivati
-# [3,]     3 250551 # Vegetazione
-# [4,]     4  17498 # Fiume
+# [1,]     1 13112769
+# [2,]     2  2607912
+# [3,]     3   375228
+# [4,]     4  3904088
+# [5,]    NA        3
+
+prop2021 <- freq(Ari2021$map) / Tot
 
 
 
