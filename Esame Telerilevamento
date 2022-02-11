@@ -329,7 +329,7 @@ Grafico
 
 
 
-dev.ogg()
+dev.off()
 
 
 
