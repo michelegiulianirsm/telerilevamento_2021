@@ -192,11 +192,11 @@ freq(Ari1991$map)
 
 prop1991 <- freq(Ari1991$map) / Tot
 
-#         value     count       Percentuale (%)
-# [1,] 5.0e-08 0.04549205                   4.5
-# [2,] 1.0e-07 0.01683450                   1.7
-# [3,] 1.5e-07 0.58132215                  58.1
-# [4,] 2.0e-07 0.35635130                  35.5 
+#         value     count       Percentuale (%)        Area
+# [1,] 5.0e-08 0.04549205                   4.5    Agricola
+# [2,] 1.0e-07 0.01683450                   1.7       Fiume
+# [3,] 1.5e-07 0.58132215                  58.1    Boschiva
+# [4,] 2.0e-07 0.35635130                  35.5    Boschiva
 
 freq(Ari2001$map)
 
@@ -208,11 +208,11 @@ freq(Ari2001$map)
 
 prop2001 <- freq(Ari2001$map) / Tot
 
-#        value      count       Percentuale (%)
-# [1,] 5.0e-08 0.01818790                   1.8
-# [2,] 1.0e-07 0.06959175                   7.0
-# [3,] 1.5e-07 0.85779505                  85.7
-# [4,] 2.0e-07 0.05442530                   5.4
+#        value      count       Percentuale (%)        Area
+# [1,] 5.0e-08 0.01818790                   1.8       Fiume
+# [2,] 1.0e-07 0.06959175                   7.0    Agricola
+# [3,] 1.5e-07 0.85779505                  85.7    Boschiva
+# [4,] 2.0e-07 0.05442530                   5.4    Agricola
 
 freq(Ari2011$map)
 
@@ -224,11 +224,11 @@ freq(Ari2011$map)
 
 prop2011 <- freq(Ari2011$map) / Tot
 
-#        value      count       Percentuale (%)
-# [1,] 5.0e-08 0.01864855                   1.8
-# [2,] 1.0e-07 0.76053315                  76.0
-# [3,] 1.5e-07 0.12140380                  12.1
-# [4,] 2.0e-07 0.09941450                   9,9
+#        value      count       Percentuale (%)      Aree
+# [1,] 5.0e-08 0.01864855                   1.8     Fiume
+# [2,] 1.0e-07 0.76053315                  76.0  Boschiva
+# [3,] 1.5e-07 0.12140380                  12.1  Agricola
+# [4,] 2.0e-07 0.09941450                   9,9  Agricola
 
 freq(Ari2021$map)
 
@@ -241,11 +241,11 @@ freq(Ari2021$map)
 
 prop2021 <- freq(Ari2021$map) / Tot
 
-#        value      count       Percentuale (%)
-# [1,] 5.0e-08 0.65563845                  65.5
-# [2,] 1.0e-07 0.13039560                  13.0
-# [3,] 1.5e-07 0.01876140                   1.9
-# [4,] 2.0e-07 0.19520440                  19.5
+#        value      count       Percentuale (%)      Aree
+# [1,] 5.0e-08 0.65563845                  65.5  Boschiva
+# [2,] 1.0e-07 0.13039560                  13.0  Agricola
+# [3,] 1.5e-07 0.01876140                   1.9     Fiume
+# [4,] 2.0e-07 0.19520440                  19.5  Agricola
 # [5,]      NA 0.00000015                    NC
 
 
