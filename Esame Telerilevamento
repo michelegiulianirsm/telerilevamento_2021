@@ -298,6 +298,32 @@ Percentuali_2001 <- c(12.4, 85.7, 1.8)
 Percentuali_2011 <- c(22, 76, 1.8)
 Percentuali_2021 <- c(32.5, 65.5, 1.9)
 
+# Buildiamo un dataframe con km
+
+Chilometri.Quadrati <- c("Agricola", "Boschiva", "Fiume")
+
+km91 <- c(810, 16848,  306)
+km01 <- c(2232, 15426, 324)
+km11 <- c(3960, 13680, 324)
+km21 <- c(5850, 11790, 342)
+
+Area.Agricola <- c(810,2232,3960,5850)
+Area.Boschiva <- c(16848,15426,13680,11790)
+Anni <- c("1991", "2001", "2011", "2021")
+df <- data.frame(Anni, Area.Agricola, Area.Boschiva)
+#plot(df$Area.Agricola, type="b", lty="dashed",col="orange", axes=FALSE, ann=FALSE)
+#lines(df$Area.Boschiva, type="l", col="dark green")
+#title(xlab="Anni", ylab="Kmq")
+#axis(1, at=1:4, lab=df$Anni)
+#axis(2, las=2, at=seq(min(Area.Agricola), max(Area.Agricola)), at2=seq(min(Area.Boschiva), max(Area.Boschiva), 300))
+
+
+
+
+km <- data.frame(Chilometri.Quadrati, km91, km01, km11, km21)
+plot(km$km91, tipe= "b", lty="dashed", col="
+#main= Utilizzo.del.Suolo
+
 percentages <- data.frame(Aree,Percentuali_1991,Percentuali_2001,Percentuali_2011,Percentuali_2021)
 percentages
 
