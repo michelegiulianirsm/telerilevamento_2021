@@ -56,7 +56,7 @@ par(mfrow=c(1,2), mar=c(2,2,2,2))
 plotRGB(A1991crop, 3, 2, 1, stretch="Lin")
 plotRGB(A2001crop, 3, 2, 1, stretch="Lin")
 
-png("C:/lab/Landsatesame/Grafico.png", width= 4000, height=1800, res=300)
+# png("C:/lab/Landsatesame/Grafico.png", width= 4000, height=1800, res=300)
 plot(
 
 
@@ -68,7 +68,7 @@ plotRGB(A2021crop, 4, 3, 2, stretch="Lin")
 # comparo le quattro immagini con plotRGB e plotNDVI per anali vegetazione 
 #plotRGB
 
-par(mfrow=c(2,2))
+par(mfrow=c(1,4))
 plotRGB(A1991crop, 4, 3, 2, stretch="lin")
 plotRGB(A2001crop, 4, 3, 2, stretch="Lin")
 plotRGB(A2011crop, 4, 3, 2, stretch="lin")
@@ -178,13 +178,18 @@ Ari2011 <- unsuperClass(A2011crop, nClasses=4)
 set.seed(999)
 Ari2021 <- unsuperClass(A2021crop, nClasses=4)
 
-color <- colorRampPalette(c(" light blue", "dark blue", "red", "orange"))(100)
+color <- colorRampPalette(c("orange", "dark blue", "dark green", "dark green"))(100)
+color2 <- colorRampPalette(c("dark blue", "orange", "dark green", "orange"))(100)
+color3 <- colorRampPalette(c("dark blue", "dark green", "orange", "orange"))(100)
+color4 <- colorRampPalette(c("dark green", "orange", "dark blue", "orange"))(100)
 
-par(mfrow=c(2,2))
+
+par(mfrow=c(1,4))
 plot(Ari1991$map, main="1991", col=color)
-plot(Ari2001$map, main="2001", col=color)
-plot(Ari2011$map, main="2011", col=color)
-plot(Ari2021$map, main="2021", col=color)
+plot(Ari2001$map, main="2001", col=color2)
+plot(Ari2011$map, main="2011", col=color3)
+plot(Ari2021$map, main="2021", col=color4)
+mtext("UnsuperClass delle rispettive immagini", outer = TRUE, line = -2)
 
 # Utilizzo la funzione "freq" per visualizzare i pixel di interesse a secondo delle aree di studio 
 
@@ -302,7 +307,7 @@ percentages
 
 # carico con ggplot
 
-perc1991 <- ggplot( percentages, aes( x=Aree, y=Percentuali_1991)) + geom_bar(stat="identity", fill="orange")
+perc1991 <- ggplot( percentages, aes( x=Aree, y=Percentuali_1991)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c()
 perc2001 <- ggplot( percentages, aes( x=Aree, y=Percentuali_2001)) + geom_bar(stat="identity", fill="orange")
 perc2011 <- ggplot( percentages, aes( x=Aree, y=Percentuali_2011)) + geom_bar(stat="identity", fill="orange")
 perc2021 <- ggplot( percentages, aes( x=Aree, y=Percentuali_2021)) + geom_bar(stat="identity", fill="orange")
@@ -315,8 +320,43 @@ Grafico
 
 # Salvare immagini di R
 
+
+
 #png("C:/lab/Landsatesame/Grafico.png", width= 4000, height=1800, res=300)
 #plot(Grafico)
+#dev.off()
+
+imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 1991")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
+imm01<- ggRGB(A2001crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 2011")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
+imm11<- ggRGB(A2011crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 2011")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
+imm21<- ggRGB(A2021crop, 5, 4, 3, stretch="lin") + ggtitle("Anno 2021")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
+
+grid.arrange(imm91, imm01, imm11, imm21, nrow= 1, top=textGrob("Variazione vegetazione negli anni visualizzata con RGB", gp = gpar(fontsize = 45, font = 3)))
+
+
+
+
+
+imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 1991")+ theme(axis.title.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank(), axis.ticks.y = element_blank())
+
+
+
+imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + theme(axis.text.x = NULL, axis.ticks.x = NULL, axis.text.y =  NULL, axis.ticks.y =  NULL)
+
+
+imm01<- ggRGB(A1991crop, 4, 3, 2, stretch="Lin")
+imm01<- ggRGB(A2001crop, 4, 3, 2, stretch="Lin")
+imm11<- ggRGB(A2011crop, 4, 3, 2, stretch="lin")
+imm21<- ggRGB(A2021crop, 5, 4, 3, stretch="lin")
+
+ggplot(imm91, mapping = aes(x = clarity)) + geom_bar(aes(fill = cut)) +
+      theme_void() + theme(legend.position="none")
+
+A1991name1991 <- ggRGB(A1991crop, 4, 3, 2, stretch="Lin") + ggtitle("Anno 1991") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
+
+png("C:/lab/Landsatesame/imm21.png", width= 4000, height=1800, res=300)
+plot(imm21)
+dev.off()
 
 #immagine1991 <- plotRGB(A1991crop, 3, 2, 1, stretch="lin")
 #immagine2001 <- plotRGB(A2001crop, 3, 2, 1, stretch="lin")
