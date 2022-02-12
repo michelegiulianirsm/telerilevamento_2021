@@ -311,15 +311,12 @@ Area.Agricola <- c(810,2232,3960,5850)
 Area.Boschiva <- c(16848,15426,13680,11790)
 Anni <- c("1991", "2001", "2011", "2021")
 df <- data.frame(Anni, Area.Agricola, Area.Boschiva)
-plot(df)
+#plot(df)
 #plot(df$Area.Agricola, type="b", lty="dashed",col="orange", axes=FALSE, ann=FALSE)
 #lines(df$Area.Boschiva, type="l", col="dark green")
 #title(xlab="Anni", ylab="Kmq")
 #axis(1, at=1:4, lab=df$Anni)
 #axis(2, las=2, at=seq(min(Area.Agricola), max(Area.Agricola)), at2=seq(min(Area.Boschiva), max(Area.Boschiva), 300))
-
-
-
 
 km <- data.frame(Chilometri.Quadrati, km91, km01, km11, km21)
 plot(km$km91, tipe= "b", lty="dashed", col="
@@ -360,230 +357,34 @@ Grafico
 #plot(Grafico)
 #dev.off()
 
-imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 1991")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
-imm01<- ggRGB(A2001crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 2011")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
-imm11<- ggRGB(A2011crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 2011")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
-imm21<- ggRGB(A2021crop, 5, 4, 3, stretch="lin") + ggtitle("Anno 2021")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
+#imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 1991")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
+#imm01<- ggRGB(A2001crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 2011")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
+#imm11<- ggRGB(A2011crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 2011")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
+#imm21<- ggRGB(A2021crop, 5, 4, 3, stretch="lin") + ggtitle("Anno 2021")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
 
-grid.arrange(imm91, imm01, imm11, imm21, nrow= 1, top=textGrob("Variazione vegetazione negli anni visualizzata con RGB", gp = gpar(fontsize = 45, font = 3)))
+#grid.arrange(imm91, imm01, imm11, imm21, nrow= 1, top=textGrob("Variazione vegetazione negli anni visualizzata con RGB", gp = gpar(fontsize = 45, font = 3)))
+#imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 1991")+ theme(axis.title.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank(), axis.ticks.y = element_blank())
+#imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + theme(axis.text.x = NULL, axis.ticks.x = NULL, axis.text.y =  NULL, axis.ticks.y =  NULL)
 
+#imm01<- ggRGB(A1991crop, 4, 3, 2, stretch="Lin")
+#imm01<- ggRGB(A2001crop, 4, 3, 2, stretch="Lin")
+#imm11<- ggRGB(A2011crop, 4, 3, 2, stretch="lin")
+#imm21<- ggRGB(A2021crop, 5, 4, 3, stretch="lin")
 
-
-
-
-imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 1991")+ theme(axis.title.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank(), axis.ticks.y = element_blank())
-
-
-
-imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + theme(axis.text.x = NULL, axis.ticks.x = NULL, axis.text.y =  NULL, axis.ticks.y =  NULL)
-
-
-imm01<- ggRGB(A1991crop, 4, 3, 2, stretch="Lin")
-imm01<- ggRGB(A2001crop, 4, 3, 2, stretch="Lin")
-imm11<- ggRGB(A2011crop, 4, 3, 2, stretch="lin")
-imm21<- ggRGB(A2021crop, 5, 4, 3, stretch="lin")
-
-ggplot(imm91, mapping = aes(x = clarity)) + geom_bar(aes(fill = cut)) +
+#ggplot(imm91, mapping = aes(x = clarity)) + geom_bar(aes(fill = cut)) +
       theme_void() + theme(legend.position="none")
 
-A1991name1991 <- ggRGB(A1991crop, 4, 3, 2, stretch="Lin") + ggtitle("Anno 1991") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
+#A1991name1991 <- ggRGB(A1991crop, 4, 3, 2, stretch="Lin") + ggtitle("Anno 1991") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
 
-png("C:/lab/Landsatesame/imm21.png", width= 4000, height=1800, res=300)
-plot(imm21)
-dev.off()
+#png("C:/lab/Landsatesame/imm21.png", width= 4000, height=1800, res=300)
+#plot(imm21)
+#dev.off()
 
 #immagine1991 <- plotRGB(A1991crop, 3, 2, 1, stretch="lin")
 #immagine2001 <- plotRGB(A2001crop, 3, 2, 1, stretch="lin")
 #immagine2011 <- plotRGB(A2011crop, 3, 2, 1, stretch="lin")
 #immagine2021 <- plotRGB(A2021crop, 4, 3, 2, stretch="lin")
 
-
-
-
-
-
-
 dev.off()
-
-
 
 -------------------------------------------------------------------------------------------------------
-dev.off()
-
-e <- extent(180000,320000,-1190000,-1040000)
-
-A21<-list.files(pattern="2021A")
-importA21<-lapply(A21,raster)
-A2021<-stack(importA21)
-plot(A2021)
-
-e <- extent(200000,320000,-1190000,-1040000)
-A2021CCcropp <- crop(A2021, e)
-plotRGB(A2021CCcropp, 4, 3, 2, stretch="lin")
-
-set.seed(999)
-AriCCp2021 <- unsuperClass(A2021CCcropp, nClasses=4)
-
-freq(AriCCp2021$map)
-
-
-# plotto i file
-plotRGB(A1991, 4, 3, 2, stretch="lin")
-
-# Uso la funzione click per creare firme spettrali 
-click(A1991, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
-
-#       x        y     cell X1991A.B1 X1991A.B2 X1991A.B3 X1991A.B4 X1991A.B5 X1991A.B6
-#1 282360 -1145370 33626912       117        46        38        71        47       131
-#2 299190 -1087950 18830339       114        44        36        67        46       133
-
-bandeA1991 <- c(1,2,3,4,5,6)
-AreaboschivaA1991 <- c( 117, 46, 38, 71, 47, 131)
-AreacittàA1991 <- c(114, 44, 36, 67, 46, 133)
-
-spectrals1991 <- data.frame(AreaboschivaA1991, AreacittàA1991)
-spectrals1991
-
-
-
-
-# plotto firme spettrali
-# uso funzione ggplot
-# introduco funzione geom_line
-# funzione labs per modificare eticheete, legende e plottaggio
-
-spA1991 <- ggplot(spectrals1991, aes(x=bandeA1991)) +
- geom_line(aes(y=AreaboschivaA1991), color="red") +
- geom_line(aes(y=AreacittàA1991), color="black")
-
-plotRGB(A2021, 5, 4, 3, stretch="lin")
-
-click(A2021, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
-
-       x        y     cell X2021A.B1 X2021A.B2 X2021A.B3 X2021A.B4 X2021A.B5 X2021A.B6 X2021A.B7
-1 280260 -1148730 36476664      95    101     116     119     171     204     162
-2 299640 -1106340 25765357      96    101     113     109     162     194     149
-
-bandeA2021 <- c(1,2,3,4,5,6)
-AreaboschivaA2021 <- c(95, 101, 116, 119, 171, 204)
-AreacittàA2021 <- c(96, 101, 113, 109, 162, 194)
-
-
-
-spectrals2021 <- data.frame(AreaboschivaA2021, AreacittàA2021)
-spectrals2021
-
-spA2021 <- ggplot(spectrals2021, aes(x=bandeA2021)) +
- geom_line(aes(y=AreaboschivaA2021), color="red") +
- geom_line(aes(y=AreacittàA2021), color="black")
- 
-grid.arrange(spA1991, spA2021, nrow=2, top=textGrob("Confronto firme spettrali tra anno 1991 e 2021"))
-
-#_______________ Firme spettrali __________________________________
-
-# plotto i file
-plotRGB(A1991, 4, 3, 2, stretch="lin")
-
-# Uso la funzione click per creare firme spettrali 
-click(A1991, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
-
-#        x        y     cell X1991A.B1 X1991A.B2 X1991A.B3 X1991A.B4 X1991A.B5 X1991A.B6
-# 1 312870 -1098300 21497990       118        46        38        73        48       133
-# 2 275610 -1150080 34840454       126        51        50        72       102       141
-# 3 244530 -1194600 46312222       137        53        48        69        67       133
-
-# Definire le colonne del dataset
-
-
-bandeA1991 <- c(1,2,3,4,5,6)
-AreaboschivaA1991 <- c(118,46,38,73,48,133)
-AreacittàA1991 <- c(126,51,50,72,102,141)
-AreaacquaA1991 <- c(137,53,48,69,67,133)
-
-# Creo un data.frame
-
-spectrals <- data.frame(bandeA1991, AreaboschivaA1991, AreacittàA1991, AreaacquaA1991)
-
-# Carico file info (spectrals)
-spectrals
-
-#  bande AreaboschivaA1991 AreaacquaA1991 AreacittàA1991
-# 1     1               116           1134            126
-# 2     2                45             57             51
-# 3     3                38             57             47
-# 4     4                69             51             67
-# 5     5                50             15            104
-# 6     6               132            131            144
-
-# plotto firme spettrali
-# uso funzione ggplot
-# introduco funzione geom_line
-# funzione labs per modificare eticheete, legende e plottaggio
-
-spA1991 <- ggplot(spectrals, aes(x=bandeA1991)) +
- geom_line(aes(y=AreaboschivaA1991), color="red") +
- geom_line(aes(y=AreacittàA1991), color="blue") +
- geom_line(aes(y=AreaacquaA1991), color="green") +
- labs(x="-1991-    bande",y="reflectance")
- 
-#plotRGB(A2001, 4, 3, 2, stretch="lin")
-#plotRGB(A2011, 4, 3, 2, stretch="lin")
-
-# Firma spettrale immagine 2021
-
-plotRGB(A2021, 5, 4, 3, stretch="lin")
-
-click(A2021, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
-
-#        x        y    cell  X2021A.B1 X2021A.B2 X2021A.B3 X2021A.B4 X2021A.B5 X2021A.B6 X2021A.B7
-# 1 306690 -1124700 30405164      92      99     114     112     170    189    142
-# 2 269460 -1150230 36855354      89      97     115     116     169    215    162
-# 3 248070 -1199160 49219252      81      88     109     104     101     79     76
-
-bandeA2021 <- c(2,3,4,5,6,7) # escludo banda uno perche è "costal aerosol"
-AreaboschivaA2021 <- c(99,114,112,170,189,142)
-AreacittàA2021 <- c(97,115,116,169,215,162)
-AreaacquaA2021 <- c(88,10962,104,101,79,76)
-
-spectralsA2021 <- data.frame(bandeA2021, AreaboschivaA2021, AreacittàA2021, AreaacquaA2021)
-spectralsA2021
-
-spA2021 <- ggplot(spectralsA2021, aes(x=bandeA2021)) +
- geom_line(aes(y=AreaboschivaA2021), color="red") +
- geom_line(aes(y=AreacittàA2021), color="blue") +
- geom_line(aes(y=AreaacquaA2021), color="green") +
- labs(x="-2021-    bande",y="reflectance")
-
-grid.arrange(spA1991, spA2021, nrow=2, top=textGrob("Confronto firme spettrali tra anno 1991 e 2021"))
-
-bande_ <- c(1,2,3,4,5,6)
-Areaboschiva_A1991 <- c(118,46,38,73,48,133)
-Areaboschiva_A2021 <- c(99,114,112,170,189,142)
-Areacittà_A1991 <- c(126,51,50,72,102,141)
-Areacittà_A2021 <- c(97,115,116,169,215,162)
-Areaacqua_A1991 <- c(137,53,48,69,67,133)
-Areaacqua_A2021 <- c( 88,109,104,101,79,76)
-
-# Data frame 
-
-firmeS <- data.frame(bande_, Areaboschiva_A1991, Areaboschiva_A2021, Areacittà_A1991, Areacittà_A2021, AreaacquaA1991, AreaacquaA2021)
-firmeS
-
-#  bande_ Areaboschiva_A1991 Areaboschiva_A2021 Areacittà_A1991 Areacittà_A2021 AreaacquaA1991 AreaacquaA2021
-# 1      1                118                 99             126              97            137           8850
-# 2      2                 46                114              51             115             53          10962
-# 3      3                 38                112              50             116             48          10411
-# 4      4                 73                170              72             169             69          10148
-# 5      5                 48                189             102             215             67           7929
-# 6      6                133                142             141             162            133           7640
-
-ggplot(firmeS, aes(x=bande_)) + 
-geom_line(aes(y=Areaboschiva_A1991), color="red", size=1) +
-geom_line(aes(y=Areaboschiva_A2021), color="green", size=1) +
-geom_line(aes(y=Areacittà_A1991), color="orange", size=1) +
-geom_line(aes(y=Areacittà_A2021), color="light green", size=1) +
-geom_line(aes(y=Areaacqua_A1991), color="dark red", size=1) +
-geom_line(aes(y=Areaacqua_A2021), color="dark green", size=1) +
-labs(x="bande", y="reflectance")
-
-
