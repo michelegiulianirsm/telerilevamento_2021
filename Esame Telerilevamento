@@ -272,21 +272,22 @@ prop2021 <- freq(Ari2021$map) / Tot
 
 # Anno 2001
 #            Percentuale (%)       Area       Km quadrati occupati                        
-#                       12.4   Agricola
-#                       85.7   Boschiva
-#                        1.8      Fiume
+#                       12.4   Agricola                       2232
+#                       85.7   Boschiva                      15426
+#                        1.8      Fiume                        324
 
 # Anno 2011
 #             Percentuale (%)      Aree       Km quadrati occupati
-#                        22.0  Agricola
-#                        76.0  Boschiva
-#                         1.8     Fiume
+#                        22.0  Agricola                       3960
+#                        76.0  Boschiva                      13680
+#                         1.8     Fiume                        324
+
 # Anno2021
 
 #             Percentuale (%)      Aree       Km quadrati occupati
-#                        32.5  Agricola
-#                        65.5  Boschiva
-#                         1.9     Fiume
+#                        32.5  Agricola                       5850
+#                        65.5  Boschiva                      11790           
+#                         1.9     Fiume                        342
 
 # Plottaggio con ggplot per le percentuali negli anni
 # Buildiamo un dataframe
@@ -316,11 +317,11 @@ perc91 <- ggplot( percent1991, aes( x=Aree, y=Percentuali_1991, fill = Legenda))
 perc01 <- ggplot( percent2001, aes( x=Aree, y=Percentuali_2001, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
 perc11 <- ggplot( percent2011, aes( x=Aree, y=Percentuali_2011, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
 perc21 <- ggplot( percent2021, aes( x=Aree, y=Percentuali_2021, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
-grid.arrange(perc91, perc01, perc11, perc21, nrow=1)
+grid.arrange(perc91 + ylim(0,95), perc01 + ylim(0,95), perc11 + ylim(0,95), perc21 + ylim(0,95), nrow=1)
 
 # metto a confronto percentuali 
 
-grid.arrange(perc1991, perc2001, perc2011, perc2021, nrow=2)
+grid.arrange(perc1991 + ylim(0,90), perc2001 + ylim(0,90), perc2011 + ylim(0,90), perc2021 + ylim(0,90), nrow=2)
 Grafico <- grid.arrange(perc1991, perc2001, perc2011, perc2021, nrow=2)
 Grafico
 
