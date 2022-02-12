@@ -306,11 +306,17 @@ percentages
 # 3    Fiume              1.7              1.8              1.8             1.9
 
 # carico con ggplot
+Legenda = c("Agricola", "Boschiva", "Fiume")
+percent1991 = cbind(percentages, Legenda)
+percent2001 = cbind(percentages, Legenda)
+percent2011 = cbind(percentages, Legenda)
+percent2021 = cbind(percentages, Legenda)
 
-perc1991 <- ggplot( percentages, aes( x=Aree, y=Percentuali_1991)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c()
-perc2001 <- ggplot( percentages, aes( x=Aree, y=Percentuali_2001)) + geom_bar(stat="identity", fill="orange")
-perc2011 <- ggplot( percentages, aes( x=Aree, y=Percentuali_2011)) + geom_bar(stat="identity", fill="orange")
-perc2021 <- ggplot( percentages, aes( x=Aree, y=Percentuali_2021)) + geom_bar(stat="identity", fill="orange")
+perc91 <- ggplot( percent1991, aes( x=Aree, y=Percentuali_1991, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
+perc01 <- ggplot( percent2001, aes( x=Aree, y=Percentuali_2001, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
+perc11 <- ggplot( percent2011, aes( x=Aree, y=Percentuali_2011, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
+perc21 <- ggplot( percent2021, aes( x=Aree, y=Percentuali_2021, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
+
 
 # metto a confronto percentuali 
 
