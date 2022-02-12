@@ -316,7 +316,7 @@ perc91 <- ggplot( percent1991, aes( x=Aree, y=Percentuali_1991, fill = Legenda))
 perc01 <- ggplot( percent2001, aes( x=Aree, y=Percentuali_2001, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
 perc11 <- ggplot( percent2011, aes( x=Aree, y=Percentuali_2011, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
 perc21 <- ggplot( percent2021, aes( x=Aree, y=Percentuali_2021, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
-
+grid.arrange(perc91, perc01, perc11, perc21, nrow=1)
 
 # metto a confronto percentuali 
 
