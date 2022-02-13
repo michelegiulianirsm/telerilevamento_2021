@@ -10,6 +10,33 @@ library(gridExtra)   # permette l'uso e creazione di tabelle e grafici
 library(grid)
 setwd("C:/lab/Landsatesame")
 
+#________________________Satelliti e bande_____________________________________________________
+
+#Landsat 4-5
+#Band 1   -> Blu
+#Band 2   -> Verde
+#Band 3   -> Rosso
+#Band 4   -> Nir
+#Band 5   -> Nir
+#Band 6   -> Thermal
+
+#Landsat 7
+#Band 1   -> Blu
+#Band 2   -> Verde
+#Band 3   -> Rosso
+#Band 4   -> Nir
+#Band 5   -> Nir
+#Band 7   -> Infrarosso
+
+#Landsat 8
+#Band 1   -> Coastal aerosol	
+#Band 2   -> Blue
+#Band 3   -> Verde
+#Band 4   -> Rosso
+#Band 5   -> NIR	
+#Band 6   -> SWIR 1 (infrarosso)
+#Band 7   -> SWIR 2 (infrarosso)
+
 # _______________________Uso list files per creare una lista di files__________________________
 
 A91<-list.files(pattern="1991A")
@@ -189,7 +216,7 @@ plot(Ari1991$map, main="1991", col=color)
 plot(Ari2001$map, main="2001", col=color2)
 plot(Ari2011$map, main="2011", col=color3)
 plot(Ari2021$map, main="2021", col=color4)
-mtext("UnsuperClass delle rispettive immagini", outer = TRUE, line = -2)
+
 
 # Utilizzo la funzione "freq" per visualizzare i pixel di interesse a secondo delle aree di studio 
 
@@ -361,8 +388,8 @@ Grafico
 #imm01<- ggRGB(A2001crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 2011")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
 #imm11<- ggRGB(A2011crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 2011")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
 #imm21<- ggRGB(A2021crop, 5, 4, 3, stretch="lin") + ggtitle("Anno 2021")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
+#grid.arrange(imm91, imm01, imm11, imm21, nrow= 1)
 
-#grid.arrange(imm91, imm01, imm11, imm21, nrow= 1, top=textGrob("Variazione vegetazione negli anni visualizzata con RGB", gp = gpar(fontsize = 45, font = 3)))
 #imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 1991")+ theme(axis.title.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank(), axis.ticks.y = element_blank())
 #imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + theme(axis.text.x = NULL, axis.ticks.x = NULL, axis.text.y =  NULL, axis.ticks.y =  NULL)
 
@@ -388,3 +415,9 @@ Grafico
 dev.off()
 
 -------------------------------------------------------------------------------------------------------
+
+grid.arrange(imm91, imm01, imm11, imm21, nrow= 1, gp = gpar(fontsize = 45,
+font = 3))
+
+
+
