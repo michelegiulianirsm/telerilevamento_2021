@@ -1,5 +1,6 @@
-# Esame Telerilevamento
+#________________________Esame Telerilevamento________________________________________________
 
+# Ogni lavoro che svoglo necessita di pacchatti che prima vengono scaricati e poi rischiamati su R.
 
 library(raster) 
 library(rasterVis) # posso utilizzare la funzione levelplot
@@ -8,9 +9,14 @@ library(ggplot2) # mi permette l'uso delle funzioni ggplot
 library(RStoolbox)# permette l'uso della Unsupervised Classification
 library(gridExtra)   # permette l'uso e creazione di tabelle e grafici
 library(grid)
+
+# La cartella, dove si trovano i dati, va collegata al software.
+
 setwd("C:/lab/Landsatesame")
 
 #________________________Satelliti e bande_____________________________________________________
+
+# I satelliti e le bande scelte sono le seguenti.
 
 #Landsat 4-5
 #Band 1   -> Blu
@@ -37,14 +43,18 @@ setwd("C:/lab/Landsatesame")
 #Band 6   -> SWIR 1 (infrarosso)
 #Band 7   -> SWIR 2 (infrarosso)
 
-# _______________________Uso list files per creare una lista di files__________________________
+# _______________________Uso list files per creare una lista di files  e rinomino__________________________
+
+# la "funzione list.files" mi permette di creare una lista.
 
 A91<-list.files(pattern="1991A")
-# lapply permette di importare la lista di file 
+# lapply permette di importare la lista di file.  
 importA91<-lapply(A91,raster)
-# Funzione stack crea un unico pacchetto di file
+# Funzione stack crea un unico pacchetto di file.
 A1991<-stack(importA91)
 plot(A1991)
+
+# con la funzione extent e crop ritaglio le immagini a mia scelta.
 
 e <- extent(200000,320000,-1190000,-1040000)
 A1991crop <- crop(A1991, e)
@@ -83,123 +93,53 @@ par(mfrow=c(1,2), mar=c(2,2,2,2))
 plotRGB(A1991crop, 3, 2, 1, stretch="Lin")
 plotRGB(A2001crop, 3, 2, 1, stretch="Lin")
 
-# png("C:/lab/Landsatesame/Grafico.png", width= 4000, height=1800, res=300)
-plot(
+# uso la funzione "par" al fine di posizionare nella stessa finestra diverse immagini scegliendo righe e colonne con "mfrowc=". 
+# plot traccia i dati in R. plotRGB offre la possibilità di scegliere le bande e di conseguenza i colori delle immagini.
 
-#par(mfrow=c(1,2), mar=c(2,2,2,2))
+#par(mfrow=c(1,2)
 #plotRGB(A2011crop, 3, 2, 1, stretch="Lin")
 #plotRGB(A2021crop, 4, 3, 2, stretch="Lin")
 
-# comparo le quattro immagini con plotRGB e plotNDVI per anali vegetazione 
-#plotRGB
+# comparo le quattro immagini con plotRGB e plotNDVI per anali vegetazione.
+# utilizzo funzione NDVI. Indice quantitativo di verde che oscilla da un valore minimo (0) a un valore massimo (1), dove 0 rappresenta il verde minimo ed 1 il verde massimo.
+# plotRGB
 
 # Comparo 4 immagini con RGB a colori naturali: Blu, Red,Green.
-# Utilizzo la funzione Stretch="Lin".
+# Utilizzo la funzione Stretch="Lin" per stirare le bande.
 par(mfrow=c(1,4))
 plotRGB(A1991crop, 4, 3, 2, stretch="lin")
 plotRGB(A2001crop, 4, 3, 2, stretch="Lin")
 plotRGB(A2011crop, 4, 3, 2, stretch="lin")
 plotRGB(A2021crop, 5, 4, 3, stretch="lin")
 
-#plotNDVI
+#Utilizzo funzione NDVI. Indice quantitativo di verde che oscilla da un valore minimo  (0) a un valore massimo (1), dove 0 rappresenta il verde minimo ed 1 il verde massimo.
+#plotNDVI.
 
 NDVI1991 <- (A1991crop[[4]] - A1991crop[[3]]) / (A1991crop[[4]] + A1991crop[[3]]) 
 NDVI2001 <- (A2001crop[[4]] - A2001crop[[3]]) / (A2001crop[[4]] + A2001crop[[3]])
 NDVI2011 <- (A2011crop[[4]] - A2011crop[[3]]) / (A2011crop[[4]] + A2011crop[[3]])
 NDVI2021 <- (A2021crop[[5]] - A2021crop[[4]]) / (A2021crop[[5]] + A2021crop[[4]])
 
-par(mfrow=c(2,2))
+#Riclassifico con la funzione "reclassify" al fine di impostare i limiti ed i colori. 
+NDVI2001R <- reclassify(NDVI2001, cbind(0.5, Inf, NA), right=FALSE)
+NDVI2011R <- reclassify(NDVI2011, cbind(-Inf, -0.2, NA))
+
+# la funzione "main" permette di dare un titolo ad ogni immagine.
+par(mfrow=c(1,4))
 plot(NDVI1991, main="Anno 1991") 
-plot(NDVI2001, main="Anno 2001") 
-plot(NDVI2011, main="Anno 2011") 
+plot(NDVI2001R, main="Anno 2001") 
+plot(NDVI2011R, main="Anno 2011") 
 plot(NDVI2021, main="Anno 2021") 
 
-# ________________Ora faccio analisi delle componenti principali (PCA)_________________________
+# dev.off() per pulire il grafico
 
-# funzione aggregate per alleggerire file fact=10
-
-A1991RES <- aggregate(A1991crop, fact=10) 
-A2001RES <- aggregate(A2001crop, fact=10) 
-A2011RES <- aggregate(A2011crop, fact=10) 
-A2021RES <- aggregate(A2021crop, fact=10) 
-
-#PCA
-
-A1991PCA <- rasterPCA(A1991RES) 
-A2001PCA <- rasterPCA(A2001RES)
-A2011PCA <- rasterPCA(A2011RES)
-A2021PCA <- rasterPCA(A2021RES)
-
-# uso l'opzione summary per lo studio delle componenti
-
-summary(A1991PCA$model)
-#                          Comp.1    Comp.2     Comp.3     Comp.4      Comp.5     Comp.6
-#Standard deviation     7.6306175 5.9269020 2.96891192 1.50767147 1.007402305 0.19526392
-#Proportion of Variance 0.5519345 0.3329842 0.08355314 0.02154674 0.009619977 0.00036142
-#Cumulative Proportion  0.5519345 0.8849187 0.96847186 0.99001860 0.999638580 1.00000000
-
-#PC1
-
-A1991PC1 <- A1991PCA$map$PC1
-levelplot(A1991PC1)
-A1991MW <- focal(A1991PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
-
-summary(A2001PCA$model)
-#                            Comp.1      Comp.2       Comp.3       Comp.4       Comp.5       Comp.6
-#Standard deviation     1717.286851 1104.528215 340.05564106 113.09241985 71.341777766 4.070779e+01
-#Proportion of Variance    0.685157    0.283438   0.02686608   0.00297147  0.001182476 3.849989e-04
-#Cumulative Proportion     0.685157    0.968595   0.99546105   0.99843253  0.999615001 1.000000e+00
-
-#PC1
-
-A2001PC1 <- A2001PCA$map$PC1
-levelplot(A2001PC1)
-A2001MW <- focal(A2001PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
-
-summary(A2011PCA$model)
-#                             Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6
-#Standard deviation     3084.6240152 1103.0248585 413.25928530 2.370053e+02 1.466033e+02 1.428229e+02
-#Proportion of Variance    0.8649588    0.1106016   0.01552516 5.106308e-03 1.953794e-03 1.854327e-03
-#Cumulative Proportion     0.8649588    0.9755604   0.99108557 9.961919e-01 9.981457e-01 1.000000e+00
-
-#PC1
-
-A2011PC1 <- A2011PCA$map$PC1
-levelplot(A2011PC1)
-A2011MW <- focal(A2011PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
-
-summary(A2021PCA1$model)
-
-#                             Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6       Comp.7
-#Standard deviation     3822.9652772 1.134875e+03 612.58426836 3.628408e+02 298.75324148 2.134628e+02 6.521908e+01
-#Proportion of Variance    0.8831393 7.782592e-02   0.02267567 7.955377e-03   0.00539329 2.753422e-03 2.570264e-04
-#Cumulative Proportion     0.8831393 9.609652e-01   0.98364088 9.915963e-01   0.99698955 9.997430e-01 1.000000e+00
-
-# risolvere problema par(mfrow=c(2,2))
-plotRGB(A1991PCA$map, 1, 2, 3, stretch="Lin")
-plotRGB(A2001PCA$map, 1, 2, 3, stretch="Lin")
-plotRGB(A2011PCA$map, 1, 2, 3, stretch="Lin")
-plotRGB(A2021PCA$map, 1, 2, 3, stretch="Lin")
-
-# multiframe con ggplot
-
-A1991name <- ggRGB(A1991PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 1991") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
-A2001name <- ggRGB(A2001PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2001") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
-A2011name <- ggRGB(A2011PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2011") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
-A2021name <- ggRGB(A2021PCA$map, 1, 2, 3, stretch="Lin") + ggtitle("Anno 2021") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
-
-#utilizzo la funzione grid.arrange per visualizzarli assieme 
-
-grid.arrange(A1991name, A2001name, A2011name, A2021name, nrow=2, top=textGrob("PCA in the years"))
-
-
+dev.off()
 
 # _____________________Classificazione non supervisionata per una visualizzazione netta delle componenti di interesse___________________________
 
-# Classificazione non supervisionata per una visualizzazione netta delle componenti di interesse
-# Utilizzo la fuzione unsuperClass 
-# Attraverso la funzione "set.seed" al fine di generare numeri pseudocasuali 
-# La "colorRampPalette" risulta utile quando si vugliono assegnare colorispecifici alle immagini
+# Classificazione non supervisionata per una visualizzazione netta delle componenti di interesse.
+# Utilizzo la fuzione unsuperClass. 
+# Attraverso la funzione "set.seed" si possono generare numeri pseudocasuali. 
 
 set.seed(999)
 Ari1991 <- unsuperClass(A1991crop, nClasses=4)
@@ -210,14 +150,14 @@ Ari2011 <- unsuperClass(A2011crop, nClasses=4)
 set.seed(999)
 Ari2021 <- unsuperClass(A2021crop, nClasses=4)
 
-#La "colorRampPalette" risulta utile quando si vugliono assegnare colori pecifici alle immagini
+#La "colorRampPalette" risulta utile quando si vugliono assegnare colori pecifici alle immagini.
 
 color <- colorRampPalette(c("orange", "dark blue", "dark green", "dark green"))(100)
 color2 <- colorRampPalette(c("dark blue", "orange", "dark green", "orange"))(100)
 color3 <- colorRampPalette(c("dark blue", "dark green", "orange", "orange"))(100)
 color4 <- colorRampPalette(c("dark green", "orange", "dark blue", "orange"))(100)
 
-#Con la funzione "par(mfrow=c(1,4)) creo un multipanel. In questo caso una riga e quattro colonne
+#Con la funzione "par(mfrow=c(1,4))" creo un multipanel. In questo caso una riga e quattro colonne.
 
 par(mfrow=c(1,4))
 plot(Ari1991$map, main="1991", col=color)
@@ -227,6 +167,8 @@ plot(Ari2021$map, main="2021", col=color4)
 
 
 # Utilizzo la funzione "freq" per visualizzare i pixel di interesse a secondo delle aree di studio. 
+# Si crea una tabella con la conta dei pixel per ogni valore.
+# Le aree che mi interessano sono: agricole, boschive, fiume.
 Tot <- 909841 + 336690 + 11626443 + 7127026    #   = 20000000 # pixel totali.
 
 freq(Ari1991$map)
@@ -237,13 +179,16 @@ freq(Ari1991$map)
 # [3,]     3 11626443
 # [4,]     4  7127026
 
-prop1991 <- freq(Ari1991$map) / Tot
+# Ora calcolo la proporzione tra le frequenze di un'immagine e le totali (Tot).
+prop1991 <- freq(Ari1991$map) / Tot. La tabella che si crea evidenzia 
 
 #         value     count       Percentuale (%)        Area
 # [1,] 5.0e-08 0.04549205                   4.5    Agricola
 # [2,] 1.0e-07 0.01683450                   1.7       Fiume
 # [3,] 1.5e-07 0.58132215                  58.1    Boschiva
 # [4,] 2.0e-07 0.35635130                  35.5    Boschiva
+
+# Faccio lo stesso per le altre immagini.
 
 freq(Ari2001$map)
 
@@ -295,8 +240,9 @@ prop2021 <- freq(Ari2021$map) / Tot
 # [4,] 2.0e-07 0.19520440                  19.5  Agricola
 # [5,]      NA 0.00000015                    NC
 
-# Clcolo area totale modificata negli anni 
-# Area tot di interesse -> 18000km quadrati
+# Clcolo area totale modificata negli anni. 
+# Area tot di interesse -> 18000km quadrati. Mi interessa sapere l'area totale in kmq per poi calcolarne i cambiamenti negli anni.
+# Ogni pixel equivale a 30m per 30m.
 
 # Anno 1991
 #            Percentuale (%)       Area       Km quadrati occupati
@@ -322,10 +268,17 @@ prop2021 <- freq(Ari2021$map) / Tot
 #                        65.5  Boschiva                      11790           
 #                         1.9     Fiume                        342
 
+# dev.off() per pulire il grafico
+
+dev.off()
 
 
-# Plottaggio con ggplot per le percentuali negli anni
-# Buildiamo un dataframe
+
+#______________________________________Crezaione dei grafici_______________________________________
+
+# PRIMO GRAFICO
+# Plottaggio con ggplot per le percentuali negli anni.
+# Buildiamo un dataframe.
 
 Aree       <- c( "Agricola", "Boschiva", "Fiume")
 Percentuali_1991 <- c(4.5, 93.9, 1.7)
@@ -333,32 +286,8 @@ Percentuali_2001 <- c(12.4, 85.7, 1.8)
 Percentuali_2011 <- c(22, 76, 1.8)
 Percentuali_2021 <- c(32.5, 65.5, 1.9)
 
-# Buildiamo un dataframe con km
-
-Chilometri.Quadrati <- c("Agricola", "Boschiva", "Fiume")
-
-km91 <- c(810, 16848,  306)
-km01 <- c(2232, 15426, 324)
-km11 <- c(3960, 13680, 324)
-km21 <- c(5850, 11790, 342)
-
-Area.Agricola <- c(810,2232,3960,5850)
-Area.Boschiva <- c(16848,15426,13680,11790)
-Anni <- c("1991", "2001", "2011", "2021")
-df <- data.frame(Anni, Area.Agricola, Area.Boschiva)
-#plot(df)
-#plot(df$Area.Agricola, type="b", lty="dashed",col="orange", axes=FALSE, ann=FALSE)
-#lines(df$Area.Boschiva, type="l", col="dark green")
-#title(xlab="Anni", ylab="Kmq")
-#axis(1, at=1:4, lab=df$Anni)
-#axis(2, las=2, at=seq(min(Area.Agricola), max(Area.Agricola)), at2=seq(min(Area.Boschiva), max(Area.Boschiva), 300))
-
-km <- data.frame(Chilometri.Quadrati, km91, km01, km11, km21)
-plot(km$km91, tipe= "b", lty="dashed", col="
-#main= Utilizzo.del.Suolo
-
 percentages <- data.frame(Aree,Percentuali_1991,Percentuali_2001,Percentuali_2011,Percentuali_2021)
-percentages
+percentages. La tabella mostra le percentuali delle aree agricole, boschive e fiume.
 
 #       Aree Percentuali_1991 Percentuali_2001 Percentuali_2011 Percentuali_021
 # 1 Agricola              4.5             12.4             22.0            32.5
@@ -366,20 +295,28 @@ percentages
 # 3    Fiume              1.7              1.8              1.8             1.9
 
 # carico con ggplot
+# la funzione "cbind" lega le percentuali alla legenda.
 Legenda = c("Agricola", "Boschiva", "Fiume")
 percent1991 = cbind(percentages, Legenda)
 percent2001 = cbind(percentages, Legenda)
 percent2011 = cbind(percentages, Legenda)
 percent2021 = cbind(percentages, Legenda)
 
+# creo ggplot e lo rinomino. Scelgo i colori del grafico (values=c).
+
 perc91 <- ggplot( percent1991, aes( x=Aree, y=Percentuali_1991, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
 perc01 <- ggplot( percent2001, aes( x=Aree, y=Percentuali_2001, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
 perc11 <- ggplot( percent2011, aes( x=Aree, y=Percentuali_2011, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
 perc21 <- ggplot( percent2021, aes( x=Aree, y=Percentuali_2021, fill = Legenda)) + geom_bar(stat="identity") + scale_fill_manual("legenda", values = c( "Agricola" = "Orange", "Boschiva" = "dark green", "Fiume" = "dark blue"))
-# metto a confronto percentuali 
+
+# metto a confronto percentuali. L'operazione "ylim(..)" mi da la possibilità di sciegliere un valore massimo nel grafico.
+
 grid.arrange(perc91 + ylim(0,95), perc01 + ylim(0,95), perc11 + ylim(0,95), perc21 + ylim(0,95), nrow=1)
 
-# imposto i valori su un dataframe 
+# SECONDO GRAFICO
+# imposto anni e chilometri.
+# creo un dataframe e lo rinomino.
+
 Anni <- c("1991", "2001","2011", "2021")
 Area.Agricola_kmq <- c(810,  2232, 3960, 5850)
 Area.Boschiva_kmq <- c( 16848, 15426, 13680, 11790)
@@ -398,44 +335,14 @@ grid.arrange(Agricola, Boschiva, nrow = 2)
 
 # Salvare immagini di R
 
+# Esistono due modi per salvare le immagini. Si può utilizzare la finzione sotto descritta oppure salvare direttamente l'immagine su R attraverso il tasto destro de mouse.
+
 #png("C:/lab/Landsatesame/Grafico.png", width= 4000, height=1800, res=300)
 #plot(Grafico)
 #dev.off()
 
-# Creo un "ggRGB" per ogni immagino e assegno il titolo con "ggtitle".
-# Utilizzo la finzione "grid.arrange" per creare un multipanel di dati.
-#imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 1991")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
-#imm01<- ggRGB(A2001crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 2011")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
-#imm11<- ggRGB(A2011crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 2011")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
-#imm21<- ggRGB(A2021crop, 5, 4, 3, stretch="lin") + ggtitle("Anno 2021")+ theme(axis.text.x = element_blank(), axis.title.x = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank())
-#grid.arrange(imm91, imm01, imm11, imm21, nrow= 1)
-
-#imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + ggtitle("Anno 1991")+ theme(axis.title.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank(), axis.ticks.y = element_blank())
-#imm91<- ggRGB(A1991crop, 4, 3, 2, stretch="lin") + theme(axis.text.x = NULL, axis.ticks.x = NULL, axis.text.y =  NULL, axis.ticks.y =  NULL)
-
-#imm01<- ggRGB(A1991crop, 4, 3, 2, stretch="Lin")
-#imm01<- ggRGB(A2001crop, 4, 3, 2, stretch="Lin")
-#imm11<- ggRGB(A2011crop, 4, 3, 2, stretch="lin")
-#imm21<- ggRGB(A2021crop, 5, 4, 3, stretch="lin")
-
-#ggplot(imm91, mapping = aes(x = clarity)) + geom_bar(aes(fill = cut)) + theme_void() + theme(legend.position="none")
-
-#A1991name1991 <- ggRGB(A1991crop, 4, 3, 2, stretch="Lin") + ggtitle("Anno 1991") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
-
-#png("C:/lab/Landsatesame/imm21.png", width= 4000, height=1800, res=300)
-#plot(imm21)
-#dev.off()
-
-#immagine1991 <- plotRGB(A1991crop, 3, 2, 1, stretch="lin")
-#immagine2001 <- plotRGB(A2001crop, 3, 2, 1, stretch="lin")
-#immagine2011 <- plotRGB(A2011crop, 3, 2, 1, stretch="lin")
-#immagine2021 <- plotRGB(A2021crop, 4, 3, 2, stretch="lin")
+# dev.off() per pulire il grafico
 
 dev.off()
 
 -------------------------------------------------------------------------------------------------------
-
-
-
-
-
