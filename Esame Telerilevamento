@@ -31,8 +31,8 @@ setwd("C:/lab/Landsatesame")
 #Band 2   -> Verde
 #Band 3   -> Rosso
 #Band 4   -> Nir
-#Band 5   -> Nir
-#Band 7   -> Infrarosso
+#Band 5   -> SWIR 1 (infrarosso)
+#Band 7   -> MIR
 
 #Landsat 8
 #Band 1   -> Coastal aerosol	
