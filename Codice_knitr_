@@ -1,0 +1,10 @@
+# Codice per funzione knitr
+
+setwd("C:/lab/")
+
+# richiamo il pacchetto knirt
+
+library(knitr)
+
+# genero report partendo da script.r
+stitch("R_code_time_series.r", template=system.file("misc", "knitr-template.Rnw", package="knitr"))
