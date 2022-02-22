@@ -1,0 +1,94 @@
+
+# Indice di vegetazione
+
+library(raster)
+
+# pacchetto  RStoolbox per l'utilizzo degli indici
+library(RStoolbox) 
+ 
+setwd("C:/lab/") 
+
+# attraverso la funzione brick inserisco le immagini in r
+defor1 <- brick("defor1.jpg")
+defor2 <- brick("defor2.jpg")
+
+# plotto le immagini con funzione "par" per visualizzarle insieme e RGB con stretch lineare
+par(mfrow=c(2,1))
+plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
+plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
+
+# b1 = nir, b2 = red, b3 = green
+ 
+ # usiamo la "DVI" dell'immagine 1 div1 per ottenere un immagine e visualizzare differenza dell'infrarosso e il rosso 
+ dvi1 <- defor1$defor1.1 - defor1$defor1.2
+
+# plotto l'immagine dvi1 
+plot(dvi1) 
+
+#  cambiamo la colorramppalette 
+cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100)
+
+# plotto l'immagine dvi1
+plot(dvi1, col=cl)
+plot(dvi1, col=cl, main="DVI 1")
+
+# usO la "DVI" dell'immagine dvi2 e plotto
+dvi2 <- defor2$defor2.1 - defor2$defor2.2
+plot(dvi2, col=cl, main="DVI 2")
+
+# funzione "par" per visualizzare dvi1 e dvi2 
+par(mfrow=c(1,2))
+plot(dvi1, col=cl, main="DVI 1")
+plot(dvi2, col=cl, main="DVI 2")
+
+# uso la funzione "DVI" per fare la sottrazione tra dvi1 e dvi2 ottengo una differenza temporale tra le due mappe 
+difdvi <- dvi1 - dvi2
+
+# plotto con una nuova colorramppalette noto in rosso le zone più antropizzate e sottoposte a deforestazione nel tempo 
+cld <- colorRampPalette(c('blue','white','red'))(100)
+plot(difdvi, col=cld)
+
+# con la funzione "NDVI1" posso visualizzare immagini con funzione radiometrica diversa con range possibile da 1 a -1
+# la funzione NDVI si calcola = (NIR - RED) / (NIR + RED)
+ndvi1 <- (defor1$defor1.1 - defor1$defor1.2) / (defor1$defor1.1 + defor1$defor1.2)
+
+# plotto con colorramppalette 
+cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100)
+plot(ndvi1, col=cl)
+
+# plotto l'immagine con la funzione "NDVI2"
+ndvi2 <- (defor2$defor2.1 - defor2$defor2.2) / (defor2$defor2.1 + defor2$defor2.2)
+plot(ndvi2, col=cl)
+
+# carico il pacchetto RStoolbox
+library(RStoolbox) 
+
+# uso la funzione "spectral indices" con "vi1" e plotto con la colorramppalette "col"
+vi <- spectralIndices(defor1, green = 3, red = 2, nir = 1)
+plot(vi, col=cl)
+
+# uso la funzioe "spectral indices" con "vi2" 
+vi2 <- spectralIndices(defor2, green = 3, red = 2, nir = 1)
+plot(vi2, col=cl)
+
+# plotto con la funzione ndvi
+difndvi <- ndvi1 - ndvi2
+cld <- colorRampPalette(c('blue','white','red'))(100) 
+plot(difndvi, col=cld)
+
+# installo il pacchetto "rasterdiv" per la visualizzazione di worllwide NDVI  
+install.packages("rasterdiv")
+library(rasterdiv)
+
+# plotto il set NDVI (Normalized Difference Vegetation Index)
+plot(copNDVI)
+
+# riclassifico l'immagine originale "copNDVI" in modo che valori di pixel 253:255 risultino NA (non classificati)
+copNDVI <- reclassify(copNDVI, cbind(253:255, NA))
+
+# plotto 
+plot(copNDVI)
+
+# utilizzo il pacchetto " rasterVis" per fare un "levelplot"
+library(rasterVis)
+levelplot(copNDVI)
