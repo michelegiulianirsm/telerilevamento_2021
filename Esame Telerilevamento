@@ -233,6 +233,7 @@ freq(Ari2021$map)
 
 prop2021 <- freq(Ari2021$map) / Tot
 
+
 #        value      count       Percentuale (%)      Aree
 # [1,] 5.0e-08 0.65563845                  65.5  Boschiva
 # [2,] 1.0e-07 0.13039560                  13.0  Agricola
