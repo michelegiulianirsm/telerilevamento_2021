@@ -1,0 +1,45 @@
+
+# R_code_land_cover.r
+library(raster)
+library(RStoolbox)
+library(ggplot2)
+
+# inserisco la workingdirectory
+setwd("C:/lab/")
+
+# richiamoo le librerie dati "raster" e "RStoolbox" per fare la classificazione 
+library(raster)
+library(RStoolbox)
+
+# installo il pacchetto ggplot e richiamo un altra libreria "ggplot"
+install.packages("ggplot2")
+library(ggplot2)
+
+# richiamo il dataset defort1 attraverso la funzione "brick"  
+defor1 <- brick("defor1.jpg")
+
+# plotto con la funzione RGB NIR 1 RED 2 GREEN 3
+plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
+
+# carico il dataset defort2 attraverso la funzione "brick"
+defor2 <- brick("defor2.jpg")
+
+# plotto con la funzione RGB NIR 1 RED 2 GREEN 3 
+plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
+
+# utilizzo la funzione ggplot per plottare con funzione RGB
+ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
+
+# uso la funzione "par" per plottare defort1 e defort2
+par(mfrow=c(1,2))
+plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
+plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
+
+# installo "GreenExtra" che permette di utilizzare ggplot 
+install.packages("gridExtra")
+library(gridExtra)
+
+# faccio un multiframe per visualizzare defort1 e defort2 insieme attraverso la funzione "ggplot" e "grid.arrange" (per creare un grafico)
+p1 <- ggRGB(defor1, r=1, g=2, b=3, stretch="lin")
+p2 <- ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
+grid.arrange(p1, p2, nrow=2)
