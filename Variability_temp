@@ -1,0 +1,133 @@
+
+# Variability_temp
+
+# setto la working directory e le library
+library(raster)
+library(RStoolbox)
+# install.packages("RStoolbox")
+setwd("C:/lab/")
+
+# porto in R l'immagine "sentinel.png" attraverso brik
+sent <- brick("sentinel.png")
+ 
+# plotto l'immagine attraverso la funzione RGB
+# NIR=1 RED=2 BLU=3 
+#con r=1 b=2 g=3 e stretch="lin"
+plotRGB(sent, stretch="lin")
+
+# calcolo il layer NDVI (ovvero la differenza tra NIR infrared e red fratto la loro differenza)
+# associo le due bande NIR e RED alle due immagini 
+nir <- sent$sentinel.1
+red <- sent$sentinel.2
+
+# costruisco quindi la funzione NDVI
+ndvi <- (nir-red) / (nir+red)
+plot(ndvi)
+
+# cambio la colorramppalette 
+cl <- colorRampPalette(c('black','white','red','magenta','green'))(100)  
+plot(ndvi,col=cl)
+
+# calcolo la deviazione standard utilizzando la funzione "focal" e la funzione "window" (w=) 
+ndvisd3 <- focal(ndvi, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+
+# plotto l'immagine 
+plot(ndvisd3)
+
+# utilizzo una "colorrampopalette"
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
+plot(ndvisd3, col=clsd)
+ 
+ # faccio la media di ndvi con 3x3 pixel utilizzando la funzione "focal"
+ndvimean3 <- focal(ndvi, w=matrix(1/9, nrow=3, ncol=3), fun=mean)
+
+# plotto l'immagine con la nostra colorampopalette
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) # 
+plot(ndvimean3, col=clsd)
+
+# faccio la media ndvi con 13x13 pixel con la funzione "focal" 
+ndvimean13 <- focal(ndvi, w=matrix(1/269, nrow=13, ncol=13), fun=mean)
+plot(ndvimean13, col=clsd)
+
+# cambio la grandezza della "moving window" con deviazione standard 5x5 pixel 
+ndvimean5 <- focal(ndvi, w=matrix(1/25, nrow=5, ncol=5), fun=mean)
+plot(ndvimean5, col=clsd)
+
+# uso la funzione PCA per fare analisi multivariata 
+sentpca <- rasterPCA(sent)
+
+# plotto l'immagine 
+plot(sentpca$map)
+
+# faccio un "summary" del modello per vedere la proporzione di variabilità spiegata da ogni singola componente
+summary(sentpca$model) # la prima componente spiega il 6736804 % della variabilità totale
+
+## DAY 2 
+
+# setto la working directory e le library
+library(raster)
+library(RStoolbox)
+
+# install.packages("RStoolbox")
+setwd("C:/lab/")
+
+# setto la library ggplot
+library(ggplot2)
+
+# libreria per plottare ggplot insieme 
+library(gridExtra)
+
+# installo la libreria per plottare colorato automaticamente 
+install.packages("viridis")
+library (viridis)
+
+# porto in R l'immagine "sentinel.png" attraverso la funzione brik
+sent <- brick("sentinel.png")
+
+# uso la funzione PCA e plotto l'immagine per l'analisi multivariata
+sentpca <- rasterPCA(sent)
+plot(sentpca$map)
+
+# faccio un "summary" del modello per vedere la proporzione di variabilità spiegata da ogni singola componente
+sentpca
+summary(sentpca$model)
+
+# utilizzo la funzione focal 3x3 per visualizzare la deviazione standard utilizzando come "oggetto" PC1
+pc1 <- sentpca$map$PC1
+pc1sd3 <- focal (pc1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+
+# utilizzo la funzione focal 3x3 per visualizzare la deviazione standard utilizzando come "oggetto" PC1 
+pc1sd5 <- focal(pc1, w=matrix(1/25, nrow=5, ncol=5), fun=sd)
+
+# utilizzo una color ramppalette 
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
+plot(pc1sd3, col=clsd)
+
+# preparo il codice salvo nel server usando la funzione "source" per recuperare facilmente il file su R
+# pc1sd5 <- focal(pc1, w=matrix(1/25, nrow=5, ncol=5), fun=sd)
+# clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) # 
+# plot(pc1sd5, col=clsd)
+source("source_test_lezione.r")
+
+# preparo un altro codice e lo si porta in r con la funzione "source"
+source("source_ggplot.r")
+
+# attraverso questa funzione individuo bene la discontinuità urbana
+# aggiungo a ggplot() con + a una geometria (punti, linee, poligoni, pixel raster ecc..) in questo caso uso la funzione geom_raster con oggetto la mappa PCA
+# definisco le "estetiche" (aes) ossia il layer che voglio mappare attraverso la funzione "mapping"
+
+ggplot() +
+geom_raster(pc1sd3, mapping = aes(x = x, y = y, fill = layer))
+
+# uso una delle legende di viridis per dichiarare una colorappalette senza citarla nel codice
+scale_fill_viridis()
+ggtitle("Standard deviation of PC1 by viridis colour scale")
+
+# utilizzo "magma" come colour scale attraverso la funzione "option = magma"
+ggplot() +
+geom_raster(pc1sd3, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis(option = "magma") +
+ggtitle("Standard deviation of PC1 by magma colour scale")
+
+# inserisco più grafici in una pagina attraverso funzione "grid.arrange" e la library "library(gridExtra)"
+grid.arrange(p1, p2, p3, nrow = 1)
