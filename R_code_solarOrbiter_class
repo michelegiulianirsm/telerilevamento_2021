@@ -1,3 +1,4 @@
+
 # SolarOrbiter
 setwd("C:/lab/solar/")
 solar<-brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")
